@@ -1,3 +1,45 @@
+DROP SCHEMA eaprender CASCADE;
+
+CREATE SCHEMA eaprender;
+
+CREATE SEQUENCE eaprender.paises_id_pais_seq;
+
+CREATE TABLE eaprender.paises (
+                id_pais INTEGER NOT NULL DEFAULT nextval('eaprender.paises_id_pais_seq'),
+                nombre VARCHAR NOT NULL,
+                CONSTRAINT paises_pk PRIMARY KEY (id_pais)
+);
+
+
+ALTER SEQUENCE eaprender.paises_id_pais_seq OWNED BY eaprender.paises.id_pais;
+
+CREATE UNIQUE INDEX paises_idx
+ ON eaprender.paises
+ ( nombre );
+
+CREATE SEQUENCE eaprender.provincias_id_provincia_seq;
+
+CREATE TABLE eaprender.provincias (
+                id_provincia BIGINT NOT NULL DEFAULT nextval('eaprender.provincias_id_provincia_seq'),
+                id_pais INTEGER NOT NULL,
+                nombre VARCHAR NOT NULL,
+                CONSTRAINT provincias_pk PRIMARY KEY (id_provincia)
+);
+
+
+ALTER SEQUENCE eaprender.provincias_id_provincia_seq OWNED BY eaprender.provincias.id_provincia;
+
+CREATE SEQUENCE eaprender.localidades_id_localidad_seq_1;
+
+CREATE TABLE eaprender.localidades (
+                id_localidad BIGINT NOT NULL DEFAULT nextval('eaprender.localidades_id_localidad_seq_1'),
+                id_provincia BIGINT NOT NULL,
+                nombre VARCHAR NOT NULL,
+                CONSTRAINT localidades_pk PRIMARY KEY (id_localidad)
+);
+
+
+ALTER SEQUENCE eaprender.localidades_id_localidad_seq_1 OWNED BY eaprender.localidades.id_localidad;
 
 CREATE SEQUENCE eaprender.tipos_documentos_id_tipodocumento_seq_1;
 
@@ -18,6 +60,7 @@ CREATE TABLE eaprender.personas (
                 nro_documento VARCHAR NOT NULL,
                 apellidos VARCHAR NOT NULL,
                 nombres VARCHAR NOT NULL,
+                id_localidad BIGINT NOT NULL,
                 CONSTRAINT personas_pk PRIMARY KEY (id_persona)
 );
 
@@ -63,6 +106,27 @@ CREATE TABLE eaprender.telefonos (
 
 
 ALTER SEQUENCE eaprender.telefonos_id_telefono_seq OWNED BY eaprender.telefonos.id_telefono;
+
+ALTER TABLE eaprender.provincias ADD CONSTRAINT paises_provincias_fk
+FOREIGN KEY (id_pais)
+REFERENCES eaprender.paises (id_pais)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE eaprender.localidades ADD CONSTRAINT provincias_localidades_fk
+FOREIGN KEY (id_provincia)
+REFERENCES eaprender.provincias (id_provincia)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE eaprender.personas ADD CONSTRAINT localidades_personas_fk
+FOREIGN KEY (id_localidad)
+REFERENCES eaprender.localidades (id_localidad)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
 
 ALTER TABLE eaprender.personas ADD CONSTRAINT tipos_documentos_personas_fk
 FOREIGN KEY (id_tipodocumento)

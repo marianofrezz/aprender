@@ -1,24 +1,23 @@
 <?php
-class dt_tipos_documentos extends aprender_datos_tabla
+class dt_paises extends aprender_datos_tabla
 {
 	function get_listado()
 	{
 		$sql = "SELECT
-			t_td.id_tipodocumento,
-			t_td.nombre
+			t_p.id_pais,
+			t_p.nombre
 		FROM
-			tipos_documentos as t_td
+			paises as t_p
 		ORDER BY nombre";
 		return toba::db('aprender')->consultar($sql);
 	}
 
-
-
 	function get_descripciones()
 	{
-		$sql = "SELECT id_tipodocumento, nombre FROM tipos_documentos ORDER BY nombre";
+		$sql = "SELECT id_pais, nombre FROM paises ORDER BY nombre";
 		return toba::db('aprender')->consultar($sql);
 	}
+
 
 }
 ?>

@@ -1,8 +1,6 @@
 <?php
 require_once('tipos_de_documentos_manual/dao_tiposdedocumentosmanual.php');
-/**
- *
- */
+require_once('adebug.php');
 class ci_tiposdedocumentosmanual extends aprender_ci
 {
 
@@ -39,9 +37,12 @@ class ci_tiposdedocumentosmanual extends aprender_ci
       $this->cn()->dep('dr_tiposdocumentos')->resetear();
       $this->set_pantalla('pant_inicial');
     } catch (toba_error_db $e) {
-      $this->cn()->dep('dr_tiposdocumentos')->resetear();
-      ei_arbol(array('$e->get_sqlstate():' => $e->get_errorcode()));
-      toba::notificacion()->agregar('No se guardó. Intente neuvamente mas tarde', 'error');
+      if (adebug::$debug) {
+        throw $e;
+      } else {
+        $this->cn()->dep('dr_tiposdocumentos')->resetear();
+        toba::notificacion()->agregar('No se guardó. Intente neuvamente mas tarde', 'error');
+      }
     }
 	}
 

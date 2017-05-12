@@ -29,3 +29,36 @@ INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, i
 	'2'  --item
 );
 --- FIN Grupo de desarrollo 0
+
+--- INICIO Grupo de desarrollo 2
+INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
+	'aprender', --proyecto
+	'admin', --usuario_grupo_acc
+	NULL, --item_id
+	'2000008'  --item
+);
+INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
+	'aprender', --proyecto
+	'admin', --usuario_grupo_acc
+	NULL, --item_id
+	'2000009'  --item
+);
+INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
+	'aprender', --proyecto
+	'admin', --usuario_grupo_acc
+	NULL, --item_id
+	'2000010'  --item
+);
+INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
+	'aprender', --proyecto
+	'admin', --usuario_grupo_acc
+	NULL, --item_id
+	'2000011'  --item
+);
+INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
+	'aprender', --proyecto
+	'admin', --usuario_grupo_acc
+	NULL, --item_id
+	'2000012'  --item
+);
+--- FIN Grupo de desarrollo 2

@@ -1,22 +1,15 @@
 <?php
-class ci_tipos_de_documentos extends aprender_ci
+class ci_provincias_poopup extends aprender_ci
 {
 	//---- Cuadro -----------------------------------------------------------------------
 
 	function conf__cuadro(toba_ei_cuadro $cuadro)
 	{
-		$cuadro->set_datos($this->dep('datos')->tabla('tipos_documentos')->get_listado());
+		$cuadro->desactivar_modo_clave_segura();
+		$cuadro->set_datos($this->dep('datos')->tabla('provincias')->get_listado());
 	}
 
-	function evt__cuadro__eliminar($datos)
-	{
-		$this->dep('datos')->resetear();
-		$this->dep('datos')->cargar($datos);
-		$this->dep('datos')->eliminar_todo();
-		$this->dep('datos')->resetear();
-	}
-
-	function evt__cuadro__seleccion($datos)
+	function evt__cuadro__edicion($datos)
 	{
 		$this->dep('datos')->cargar($datos);
 		$this->set_pantalla('pant_edicion');
@@ -27,7 +20,7 @@ class ci_tipos_de_documentos extends aprender_ci
 	function conf__formulario(toba_ei_formulario $form)
 	{
 		if ($this->dep('datos')->esta_cargada()) {
-			$form->set_datos($this->dep('datos')->tabla('tipos_documentos')->get());
+			$form->set_datos($this->dep('datos')->tabla('provincias')->get());
 		} else {
 			$this->pantalla()->eliminar_evento('eliminar');
 		}
@@ -35,7 +28,7 @@ class ci_tipos_de_documentos extends aprender_ci
 
 	function evt__formulario__modificacion($datos)
 	{
-		$this->dep('datos')->tabla('tipos_documentos')->set($datos);
+		$this->dep('datos')->tabla('provincias')->set($datos);
 	}
 
 	function resetear()
