@@ -30,18 +30,25 @@ class dao_personas
 
   static function get_descomboTelefono($id)
   {
-    return $id;
+    $id = quote($id);
+    $sql = "SELECT ttel.nombre
+            FROM eaprender.tipos_telefonos ttel
+            WHERE ttel.id_tipotelefono = $id";
+    $descripcion = consultar_fuente($sql);
+    return $descripcion[0]['nombre'];
   }
 
-  static function get_opcomboTelefono()
+  static function get_opcomboTelefono($consulta)
   {
-    $lista = ['Principal', 'Fijo', 'Movil', 'Empresarial'];
-    $opciones = [];
-
-    for ($i=0; $i < 4; $i++) {
-      $opciones[$i] = ['nombre' => $lista[$i]];
-    }
-
+    $consulta = quote($consulta);
+    $sql = "SELECT
+              id_tipotelefono,
+              nombre,
+              numero,
+              interno
+            FROM eaprender.tipos_telefonos
+            WHERE nombre ILIKE '%' || $consulta || '%'";
+    $opciones = consultar_fuente($sql);
     return $opciones;
   }
 
@@ -124,6 +131,25 @@ class dao_personas
 
     return $resultado[0];
   }
+
+  static function get_confTiposTelefonos($idTipoTel)
+  {
+    if (!$idTipoTel && $idTipoTel != 0) {
+      return null;
+    }
+
+    $idTipoTel = quote($idTipoTel);
+
+    $sql = "SELECT *
+              FROM eaprender.tipos_telefonos ttel
+              WHERE ttel.id_tipotelefono = $idTipoTel";
+
+    $resultado = consultar_fuente($sql);
+
+    return $resultado[0];
+  }
+
+
 }
 
 ?>

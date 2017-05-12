@@ -2,6 +2,19 @@ DROP SCHEMA eaprender CASCADE;
 
 CREATE SCHEMA eaprender;
 
+CREATE SEQUENCE eaprender.tipos_telefonos_id_tipotelefono_seq_1;
+
+CREATE TABLE eaprender.tipos_telefonos (
+                id_tipotelefono INTEGER NOT NULL DEFAULT nextval('eaprender.tipos_telefonos_id_tipotelefono_seq_1'),
+                nombre VARCHAR NOT NULL,
+                numero BOOLEAN NOT NULL,
+                interno BOOLEAN NOT NULL,
+                CONSTRAINT tipos_telefonos_pk PRIMARY KEY (id_tipotelefono)
+);
+
+
+ALTER SEQUENCE eaprender.tipos_telefonos_id_tipotelefono_seq_1 OWNED BY eaprender.tipos_telefonos.id_tipotelefono;
+
 CREATE SEQUENCE eaprender.paises_id_pais_seq;
 
 CREATE TABLE eaprender.paises (
@@ -98,14 +111,21 @@ CREATE SEQUENCE eaprender.telefonos_id_telefono_seq;
 CREATE TABLE eaprender.telefonos (
                 id_telefono BIGINT NOT NULL DEFAULT nextval('eaprender.telefonos_id_telefono_seq'),
                 id_persona BIGINT NOT NULL,
-                nombre VARCHAR NOT NULL,
-                interno VARCHAR NOT NULL,
+                interno VARCHAR,
                 nro_telefono VARCHAR NOT NULL,
+                id_tipotelefono INTEGER NOT NULL,
                 CONSTRAINT telefonos_pk PRIMARY KEY (id_telefono)
 );
 
 
 ALTER SEQUENCE eaprender.telefonos_id_telefono_seq OWNED BY eaprender.telefonos.id_telefono;
+
+ALTER TABLE eaprender.telefonos ADD CONSTRAINT tipos_telefonos_telefonos_fk
+FOREIGN KEY (id_tipotelefono)
+REFERENCES eaprender.tipos_telefonos (id_tipotelefono)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
 
 ALTER TABLE eaprender.provincias ADD CONSTRAINT paises_provincias_fk
 FOREIGN KEY (id_pais)

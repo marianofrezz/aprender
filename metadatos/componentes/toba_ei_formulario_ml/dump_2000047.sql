@@ -16,8 +16,8 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	'toba', --clase_proyecto
 	'toba_ei_formulario_ml', --clase
 	'2000001', --punto_montaje
-	NULL, --subclase
-	NULL, --subclase_archivo
+	'form_ml_telefonos', --subclase
+	'personas/form_ml_telefonos.php', --subclase_archivo
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
 	'ci_personas - form_ml_telefonos', --nombre
@@ -135,9 +135,9 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'2000066', --objeto_ei_formulario_fila
 	'2000047', --objeto_ei_formulario
 	'aprender', --objeto_ei_formulario_proyecto
-	'nombre', --identificador
+	'id_tipotelefono', --identificador
 	'ef_combo_editable', --elemento_formulario
-	'nombre', --columnas
+	'id_tipotelefono', --columnas
 	'1', --obligatorio
 	'0', --oculto_relaja_obligatorio
 	'1', --orden
@@ -163,7 +163,7 @@ Ejemplo: Principal, Fijo, Movil, Empresarial', --descripcion
 	NULL, --carga_sql
 	'aprender', --carga_fuente
 	NULL, --carga_lista
-	'nombre', --carga_col_clave
+	'id_tipotelefono', --carga_col_clave
 	'nombre', --carga_col_desc
 	NULL, --carga_maestros
 	'0', --carga_cascada_relaj

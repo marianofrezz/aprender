@@ -130,5 +130,11 @@ class ci_personas extends aprender_ci
 		$this->s__datos_filtro = $datos;
 	}
 
+
+	function ajax__get_confTiposTelefonos($id, toba_ajax_respuesta $respuesta)
+	{
+		$datos = dao_personas::get_confTiposTelefonos($id);
+		$respuesta->set($datos);
+	}
 }
 ?>

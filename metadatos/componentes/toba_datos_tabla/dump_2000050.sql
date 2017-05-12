@@ -100,20 +100,6 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
 	'aprender', --objeto_proyecto
 	'2000050', --objeto
-	'2000010', --col_id
-	'nombre', --columna
-	'C', --tipo
-	'0', --pk
-	'', --secuencia
-	NULL, --largo
-	NULL, --no_nulo
-	'1', --no_nulo_db
-	'0', --externa
-	'telefonos'  --tabla
-);
-INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
-	'aprender', --objeto_proyecto
-	'2000050', --objeto
 	'2000011', --col_id
 	'interno', --columna
 	'C', --tipo
@@ -131,6 +117,20 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'2000012', --col_id
 	'nro_telefono', --columna
 	'C', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'1', --no_nulo_db
+	'0', --externa
+	'telefonos'  --tabla
+);
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'aprender', --objeto_proyecto
+	'2000050', --objeto
+	'2000021', --col_id
+	'id_tipotelefono', --columna
+	'E', --tipo
 	'0', --pk
 	'', --secuencia
 	NULL, --largo
