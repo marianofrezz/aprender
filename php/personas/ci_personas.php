@@ -5,6 +5,20 @@ class ci_personas extends aprender_ci
 {
 	protected $s__datos;
 	protected $s__datos_filtro;
+
+	/**
+	 * Se ejecuta al inicio de todos los request en donde participa el componente
+	 */
+	function ini()
+ 	{
+ 		$this->inicializarCN();
+ 	}
+
+	function inicializarCN()
+	{
+		$this->cn()->set_nombres_defecto('dr_personas', ['dt_personas']);
+	}
+
 	//-----------------------------------------------------------------------------------
 	//---- cuadro -----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
@@ -31,12 +45,7 @@ class ci_personas extends aprender_ci
 	 */
 	function evt__cuadro__seleccion($seleccion)
 	{
-    $this->cn()->dep('dr_personas')->tabla('dt_personas')->cargar($seleccion);
-
-		$id_fila = $this->cn()->dep('dr_personas')->tabla('dt_personas')->get_id_fila_condicion($seleccion)[0];
-		$this->cn()->dep('dr_personas')->tabla('dt_personas')->set_cursor($id_fila);
-
-		$this->cn()->dep('dr_personas')->tabla('dt_telefonos')->cargar();
+    $this->cn()->cargar($seleccion, true, null, null, ['dt_telefonos']);
     $this->set_pantalla('pant_edicion');
 	}
 
@@ -57,8 +66,8 @@ class ci_personas extends aprender_ci
 		if (isset($this->s__datos['form'])) {
 			$form->set_datos($this->s__datos['form']);
 		} else {
-			if ($this->cn()->dep('dr_personas')->tabla('dt_personas')->hay_cursor()) {
-	      $datos = $this->cn()->dep('dr_personas')->tabla('dt_personas')->get();
+			if ($this->cn()->hay_cursor_dt()) {
+	      $datos = $this->cn()->get_datos_dt();
 				$this->s__datos['form'] = $datos;
 	      $form->set_datos($datos);
 	    }
@@ -70,8 +79,8 @@ class ci_personas extends aprender_ci
 		if (isset($this->s__datos['formmltel'])) {
 			$form->set_datos($this->s__datos['formmltel']);
 		} else {
-			if ($this->cn()->dep('dr_personas')->tabla('dt_personas')->hay_cursor()) {
-				$datos = $this->cn()->dep('dr_personas')->tabla('dt_telefonos')->get_filas();
+			if ($this->cn()->hay_cursor_dt()) {
+				$datos = $this->cn()->get_datos_dt(true, null, null, 'dt_telefonos');
 				$this->s__datos['formmltel'] = $datos;
 				$form->set_datos($datos);
 			}
@@ -86,11 +95,10 @@ class ci_personas extends aprender_ci
 	function evt__procesar()
 	{
     try {
-      $this->cn()->dep('dr_personas')->sincronizar();
-      $this->cn()->dep('dr_personas')->resetear();
+      $this->cn()->guardar();
       $this->evt__cancelar();
     } catch (toba_error_db $e) {
-			$this->cn()->dep('dr_personas')->resetear();
+			$this->cn()->reiniciar();
       if (adebug::$debug) {
         throw $e;
       } else {
@@ -108,13 +116,13 @@ class ci_personas extends aprender_ci
 	function evt__form__modificacion($datos)
 	{
 		$this->s__datos['form'] = $datos;
-		$this->cn()->dep('dr_personas')->tabla('dt_personas')->set($datos);
+		$this->cn()->set_datos_dt($datos);
 	}
 
 	function evt__form_ml_telefonos__modificacion($datos)
 	{
 		$this->s__datos['formmltel'] = $datos;
-		$this->cn()->dep('dr_personas')->tabla('dt_telefonos')->procesar_filas($datos);
+		$this->cn()->set_datos_dt($datos, true, null, 'dt_telefonos');
 	}
 
 	//-----------------------------------------------------------------------------------
