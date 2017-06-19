@@ -80,7 +80,7 @@
     <column id="COL20" populated="true" UUID="2d209d5e-374f-4097-ba4b-5e716ffe897c" autoIncrement="false" autoIncrementSequenceName="tipos_telefonos_id_tipotelefono_seq" defaultValue="" name="id_tipotelefono" nullable="0" physicalName="id_tipotelefono" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL21" populated="true" UUID="43e02ad4-8f25-46bc-b479-e53719fa60b0" autoIncrement="false" autoIncrementSequenceName="telefonos_imagen_seq" defaultValue="" name="imagen" nullable="0" physicalName="imagen" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2004" userDefinedTypeUUID="5c50e616-a448-40e1-abcd-5bfc04dcc607" >
+    <column id="COL21" populated="true" UUID="43e02ad4-8f25-46bc-b479-e53719fa60b0" autoIncrement="false" autoIncrementSequenceName="telefonos_imagen_seq" defaultValue="" name="imagen" nullable="1" physicalName="imagen" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2004" userDefinedTypeUUID="5c50e616-a448-40e1-abcd-5bfc04dcc607" >
      <remarks>Agregamos esta columna con el único objetivo de ejemplificar la carga de imagenes usando un formulario multilinea en Toba</remarks>
     </column>
     </folder>

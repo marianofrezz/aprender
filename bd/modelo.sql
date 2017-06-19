@@ -111,7 +111,7 @@ CREATE TABLE eaprender.telefonos (
                 interno VARCHAR,
                 nro_telefono VARCHAR NOT NULL,
                 id_tipotelefono INTEGER NOT NULL,
-                imagen BYTEA NOT NULL,
+                imagen BYTEA,
                 CONSTRAINT telefonos_pk PRIMARY KEY (id_telefono)
 );
 COMMENT ON COLUMN eaprender.telefonos.imagen IS 'Agregamos esta columna con el único objetivo de ejemplificar la carga de imagenes usando un formulario multilinea en Toba';
