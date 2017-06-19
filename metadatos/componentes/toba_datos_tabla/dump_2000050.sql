@@ -140,3 +140,20 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'telefonos'  --tabla
 );
 --- FIN Grupo de desarrollo 2
+
+--- INICIO Grupo de desarrollo 8
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'aprender', --objeto_proyecto
+	'2000050', --objeto
+	'8000469', --col_id
+	'imagen', --columna
+	'B', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'1', --no_nulo_db
+	'0', --externa
+	'telefonos'  --tabla
+);
+--- FIN Grupo de desarrollo 8
