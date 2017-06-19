@@ -1,6 +1,3 @@
-DROP SCHEMA eaprender CASCADE;
-
-CREATE SCHEMA eaprender;
 
 CREATE SEQUENCE eaprender.tipos_telefonos_id_tipotelefono_seq_1;
 
@@ -114,8 +111,10 @@ CREATE TABLE eaprender.telefonos (
                 interno VARCHAR,
                 nro_telefono VARCHAR NOT NULL,
                 id_tipotelefono INTEGER NOT NULL,
+                imagen BYTEA NOT NULL,
                 CONSTRAINT telefonos_pk PRIMARY KEY (id_telefono)
 );
+COMMENT ON COLUMN eaprender.telefonos.imagen IS 'Agregamos esta columna con el único objetivo de ejemplificar la carga de imagenes usando un formulario multilinea en Toba';
 
 
 ALTER SEQUENCE eaprender.telefonos_id_telefono_seq OWNED BY eaprender.telefonos.id_telefono;
