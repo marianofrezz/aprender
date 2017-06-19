@@ -1,5 +1,7 @@
 <?php
-class aprender_cn extends toba_cn
+include_once 'cn_generico.php';
+class aprender_cn extends cn_generico
 {
+
 }
 ?>
