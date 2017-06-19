@@ -1,0 +1,2 @@
+DROP SCHEMA eaprender CASCADE;
+CREATE SCHEMA eaprender;
