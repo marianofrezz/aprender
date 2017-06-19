@@ -1,0 +1,4 @@
+DIR=$( cd $(dirname $0) ; pwd -P )
+psql -f $DIR/../bd/vaciarEsquema.sql bdaprender
+psql -f $DIR/../bd/modelo.sql bdaprender
+psql -f $DIR/../bd/datos.sql bdaprender
