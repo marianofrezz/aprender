@@ -6,7 +6,7 @@ class cn_generico extends toba_cn
 	// Nombres de los dt por defecto, el índice 0 es el dt padre
 	protected $nombres_dt_defecto = [0 => 'dt_padre'];
 	// Cache de datos del cn
-	public $s__datos = [];
+	protected $s__datos = [];
 
 	/**
 	* Guarda la variable $datos en la posición $clave.
@@ -50,10 +50,10 @@ class cn_generico extends toba_cn
 	*                                 determina, se usará $this->nombre_dr_defecto
 	* @param array  $nombres_dt       Array numerado tipo [0 => 'dt_padre1', ]. Define
 	*                                 los nombres de los dts padre. Si se omite este argumento, entonces se
-	*                                 usará this->nombres_dt_defecto.
+	*                                 usará dr->cargar($selección).
 	* @param array  $nombres_dt_hijos Array numerado tipo [0 => 'dt_hijo1', ]. Define
 	*                                 los nombres de los dts hijos. Si se omite este argumento, entonces se
-	*                                 usará this->nombres_dt_defecto. Estos dt se cargarán sin argumentos luego de los padres.
+	*                                 omite la carga de dt hijos. Estos dt se cargarán sin argumentos luego de los padres.
 	*/
 	public function cargar(array $seleccion, $setCursor = false, $nombre_dr = null, array $nombres_dt = null, array $nombres_dt_hijos = null)
 	{
