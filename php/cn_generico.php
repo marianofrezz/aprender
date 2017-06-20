@@ -323,15 +323,18 @@ class cn_generico extends toba_cn
 			$temp_imagen = fopen($s__temp_archivo['path'], 'w');
 			stream_copy_to_stream($imagen, $temp_imagen);
 			fclose($temp_imagen);
+			fclose($imagen);
 			$tamano = round(filesize($s__temp_archivo['path']) / 1024);
 			$html_imagen =
-			"<img src='{$s__temp_archivo['url']}' alt='' />";
-			$datos[$nombre_campo] = 'Tamaño foto actual: '.$tamano.' kb';
+			"<img width=\"24px\" src='{$s__temp_archivo['url']}' alt='' />";
+			$datos[$nombre_campo] = '<a href="'.$s__temp_archivo['url'].'" target="_newtab">'.$html_imagen.' Tamaño archivo actual: '.$tamano.' kb</a>';
+			$datos[$nombre_campo.'?html'] = $html_imagen;
+		  $datos[$nombre_campo.'?url'] = $s__temp_archivo['url'];
 		} else {
 			$datos[$nombre_campo] = null;
 		}
 
-		return array('datos' => $datos, 'html_imagen' => $html_imagen);
+		return $datos;
 	}
 
 	/**
