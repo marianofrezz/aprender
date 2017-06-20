@@ -81,6 +81,7 @@ class ci_personas extends aprender_ci
 		} else {
 			if ($this->cn()->hay_cursor_dt()) {
 				$datos = $this->cn()->get_datos_dt(true, null, null, 'dt_telefonos');
+				$datos = $this->cn()->get_blobs(null, 'dt_telefonos', $datos, 'imagen');
 				$this->s__datos['formmltel'] = $datos;
 				$form->set_datos($datos);
 			}
@@ -110,6 +111,7 @@ class ci_personas extends aprender_ci
 	function evt__cancelar()
 	{
 		unset($this->s__datos);
+		$this->cn()->reiniciar();
 		$this->set_pantalla('pant_inicial');
 	}
 
@@ -123,6 +125,7 @@ class ci_personas extends aprender_ci
 	{
 		$this->s__datos['formmltel'] = $datos;
 		$this->cn()->set_datos_dt($datos, true, null, 'dt_telefonos');
+		$this->cn()->set_blob_dt(null, 'dt_telefonos', $datos, 'imagen', /*es_ml?*/true);
 	}
 
 	//-----------------------------------------------------------------------------------
