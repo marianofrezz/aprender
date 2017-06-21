@@ -1,6 +1,7 @@
 <?php
 require_once 'personas/dao_personas.php';
 require_once('adebug.php');
+require_once('comunes/mensajes.php');
 class ci_personas extends aprender_ci
 {
 	protected $s__datos;
@@ -17,6 +18,24 @@ class ci_personas extends aprender_ci
 	function inicializarCN()
 	{
 		$this->cn()->set_nombres_defecto('dr_personas', ['dt_personas']);
+	}
+
+	//----------------------------------------------------------------------------
+	//---- JAVASCRIPT ------------------------------------------------------------
+	//----------------------------------------------------------------------------
+
+	function extender_objeto_js()
+	{
+		parent::extender_objeto_js();
+		$this->atenderMensajeExistoso(true);
+	}
+
+	function atenderMensajeExistoso()
+	{
+		if ($this->b_registroExitoso()) {
+			echo mensajes::mensajeExitoso(true, 'unMensajeAprender celesteExitoso');
+			$this->unset_registroExitoso();
+		}
 	}
 
 	//-----------------------------------------------------------------------------------
@@ -95,9 +114,11 @@ class ci_personas extends aprender_ci
 
 	function evt__procesar()
 	{
+		$registroExitoso = false;
     try {
       $this->cn()->guardar();
       $this->evt__cancelar();
+			$registroExitoso = true;
     } catch (toba_error_db $e) {
 			$this->cn()->reiniciar();
       if (adebug::$debug) {
@@ -106,6 +127,24 @@ class ci_personas extends aprender_ci
         toba::notificacion()->agregar('No se guardó. Intente nuevamente mas tarde', 'error');
       }
     }
+		if ($registroExitoso) {
+			$this->set_registroExitoso();
+		}
+	}
+
+	function set_registroExitoso()
+	{
+		$this->s__datos['msj_registroExitoso'] = true;
+	}
+
+	function unset_registroExitoso()
+	{
+		unset($this->s__datos['msj_registroExitoso']);
+	}
+
+	function b_registroExitoso()
+	{
+		return isset($this->s__datos['msj_registroExitoso']) ? $this->s__datos['msj_registroExitoso'] : false;
 	}
 
 	function evt__cancelar()

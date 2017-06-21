@@ -1,3 +1,21 @@
 /**
-	Incluir aquí las reglas css propias de este proyecto 
+	Incluir aquí las reglas css propias de este proyecto
 */
+
+.unMensajeAprender {
+	position: fixed;
+  left: 50%;
+  margin-left: -160px;
+  margin-top: 34px;
+	padding: 5px 15px;
+	z-index: 0;
+	font-size: 15px;
+}
+
+.celesteExitoso {
+	background-color: #99bbff;
+	color: #000;
+	text-shadow: #fff 0 0 10px;
+	border: 2px dotted #6600cc;
+	opacity: 0.88;
+}

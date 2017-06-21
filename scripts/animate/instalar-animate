@@ -1,0 +1,10 @@
+DIR=$( cd $(dirname $0) ; pwd -P )
+if [ $(ls $DIR/instalado 2>/dev/null) ]; then
+  echo ""
+  echo "Se encontró el archivo $DIR/instalado"
+  echo "animate ya está instalado, si no es así borre el archivo mencioando anteriormente y vuelva a intentarlo"
+  echo ""
+else
+  wget -O $DIR/../../www/css/tmp-animate.css https://raw.github.com/daneden/animate.css/master/animate.css && cp $DIR/../../www/css/toba.css $DIR/toba.css.bak && echo "" | tee -a $DIR/../../www/css/toba.css && cat $DIR/../../www/css/tmp-animate.css | tee -a $DIR/../../www/css/toba.css && touch $DIR/instalado && rm $DIR/../../www/css/tmp-animate.css && echo "
+Instalación finalizada"
+fi
