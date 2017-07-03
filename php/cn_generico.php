@@ -311,27 +311,39 @@ class cn_generico extends toba_cn
 
 	public function get_blob($nombre_dr, $nombre_dt, $datos, $nombre_campo, $id_fila)
 	{
-		$dr = $this->dep((isset($nombre_dr) ? $nombre_dr : $this->nombre_dr_defecto));
-		$dt = $dr->tabla((isset($nombre_dt) ? $nombre_dt : $this->nombres_dt_defecto[0]));
+		$nombre_dr = (isset($nombre_dr) ? $nombre_dr : $this->nombre_dr_defecto);
+		$dr = $this->dep($nombre_dr);
+		$nombre_dt = (isset($nombre_dt) ? $nombre_dt : $this->nombres_dt_defecto[0]);
+		$dt = $dr->tabla($nombre_dt);
 
-		$html_imagen = null;
+		if (!isset($this->s__datos['cache_imagenes'])) {
+			$this->s__datos['cache_imagenes'] = [];
+		}
+		$cacheImagenes = $this->s__datos['cache_imagenes'];
 
-		$imagen = $dt->get_blob($nombre_campo, $id_fila);
-		if (isset($imagen)) {
-			$temp_nombre = md5(uniqid(time()));
-			$s__temp_archivo = toba::proyecto()->get_www_temp($temp_nombre);
-			$temp_imagen = fopen($s__temp_archivo['path'], 'w');
-			stream_copy_to_stream($imagen, $temp_imagen);
-			fclose($temp_imagen);
-			fclose($imagen);
-			$tamano = round(filesize($s__temp_archivo['path']) / 1024);
-			$html_imagen =
-			"<img width=\"24px\" src='{$s__temp_archivo['url']}' alt='' />";
-			$datos[$nombre_campo] = '<a href="'.$s__temp_archivo['url'].'" target="_newtab">'.$html_imagen.' Tamaño archivo actual: '.$tamano.' kb</a>';
-			$datos[$nombre_campo.'?html'] = $html_imagen;
-		  $datos[$nombre_campo.'?url'] = $s__temp_archivo['url'];
+		if (isset($cacheImagenes[$nombre_dr][$nombre_dt][$nombre_campo][$id_fila][$nombre_campo.'?html'])) {
+			$fila = $cacheImagenes[$nombre_dr][$nombre_dt][$nombre_campo][$id_fila];
+			$datos = array_merge($datos, $cacheImagenes[$nombre_dr][$nombre_dt][$nombre_campo][$id_fila]);
 		} else {
-			$datos[$nombre_campo] = null;
+			$html_imagen = null;
+			$imagen = $dt->get_blob($nombre_campo, $id_fila);
+			if (isset($imagen)) {
+				$temp_nombre = md5(uniqid(time()));
+				$s__temp_archivo = toba::proyecto()->get_www_temp($temp_nombre);
+				$html_imagen = "<img width=\"24px\" src='{$s__temp_archivo['url']}' alt='' />";
+				$temp_imagen = fopen($s__temp_archivo['path'], 'w');
+				stream_copy_to_stream($imagen, $temp_imagen);
+				fclose($temp_imagen);
+				fclose($imagen);
+				$tamano = round(filesize($s__temp_archivo['path']) / 1024);
+				$fila[$nombre_campo] = '<a href="'.$s__temp_archivo['url'].'" target="_newtab">'.$html_imagen.' Tamaño archivo actual: '.$tamano.' kb</a>';
+				$fila[$nombre_campo.'?html'] = $html_imagen;
+				$fila[$nombre_campo.'?url'] = $s__temp_archivo['url'];
+			} else {
+				$fila[$nombre_campo] = null;
+			}
+			$datos = array_merge($datos, $fila);
+			$this->s__datos['cache_imagenes'][$nombre_dr][$nombre_dt][$nombre_campo][$id_fila] = $fila;
 		}
 
 		return $datos;
