@@ -107,6 +107,24 @@ class ci_personas extends aprender_ci
 		}
 	}
 
+	function conf__form_untelefono($form)
+	{
+		$datos = $this->get_datoCargadoUnTelefono();
+		$form->set_datos($datos);
+	}
+
+	function get_datoCargadoUnTelefono()
+	{
+		$datos = [];
+		if (isset($this->s__datos['formuntel'])) {
+			$datos = $this->s__datos['formuntel'];
+		} else {
+			$datos = $this->cn()->get_unTelefonoPersonaCargada();
+			$this->s__datos['formuntel'] = $datos;
+		}
+		return $datos;
+	}
+
 	function evt__nuevo()
 	{
 		$this->set_pantalla('pant_edicion');
