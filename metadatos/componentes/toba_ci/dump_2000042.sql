@@ -228,6 +228,21 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 --- FIN Grupo de desarrollo 2
 
+--- INICIO Grupo de desarrollo 8
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'aprender', --proyecto
+	'8000551', --dep_id
+	'2000042', --objeto_consumidor
+	'8000571', --objeto_proveedor
+	'form_untelefono', --identificador
+	NULL, --parametros_a
+	NULL, --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	NULL  --orden
+);
+--- FIN Grupo de desarrollo 8
+
 ------------------------------------------------------------
 -- apex_objeto_ci_pantalla
 ------------------------------------------------------------
@@ -301,8 +316,15 @@ INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id)
 	'aprender', --proyecto
 	'2000021', --pantalla
 	'2000042', --objeto_ci
-	'1', --orden
+	'2', --orden
 	'2000039'  --dep_id
+);
+INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
+	'aprender', --proyecto
+	'2000021', --pantalla
+	'2000042', --objeto_ci
+	'1', --orden
+	'8000551'  --dep_id
 );
 
 ------------------------------------------------------------
