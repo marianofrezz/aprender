@@ -323,7 +323,7 @@ class cn_generico extends toba_cn
 
 		if (isset($cacheImagenes[$nombre_dr][$nombre_dt][$nombre_campo][$id_fila][$nombre_campo.'?html'])) {
 			$fila = $cacheImagenes[$nombre_dr][$nombre_dt][$nombre_campo][$id_fila];
-			$datos = array_merge($datos, $cacheImagenes[$nombre_dr][$nombre_dt][$nombre_campo][$id_fila]);
+			$datos = array_merge($datos, $fila);
 		} else {
 			$html_imagen = null;
 			$imagen = $dt->get_blob($nombre_campo, $id_fila);
