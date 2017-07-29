@@ -42,7 +42,7 @@ class cn_personas extends aprender_cn
     }
   }
 
-  function cargarDatos_nuevoTelefono(array $datos) //
+  function setDatos_nuevoTelefono(array $datos) //
   {
     // Creamos la fila nueva en memoria temporal en el Datos Tabla
     $this->dep($this->nombre_dr_defecto)->tabla('dt_telefonos')->nueva_fila($datos);
