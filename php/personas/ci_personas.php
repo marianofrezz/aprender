@@ -178,6 +178,17 @@ class ci_personas extends aprender_ci
 		$this->cn()->set_datos_dt($datos);
 	}
 
+	function evt__form_untelefono__modificacion($datos)
+	{
+		if ($this->cn()->hay_cursor_dt()) { //Estamos editando un registro existente?
+			$this->cn()->set_datos_dt($datos, /*es_ml?*/false, null, 'dt_telefonos');
+			$this->cn()->set_blob_dt(null, 'dt_telefonos', $datos, 'imagen', /*es_ml?*/false);
+		} else {
+			$this->cn()->cargarDatos_nuevoTelefono($datos);
+		}
+		$this->s__datos['formmltel'] = $datos;
+	}
+
 	function evt__form_ml_telefonos__modificacion($datos)
 	{
 		$this->s__datos['formmltel'] = $datos;
