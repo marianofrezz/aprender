@@ -31,7 +31,7 @@ class ci_telefonos_tab extends aprender_ci
     $this->s__datos_telefono['form_ml_telefonos.cursor'] = $id_fila;
   }
 
-  function unset_cursor_ml_telefonos($id_fila)
+  function unset_cursor_ml_telefonos()
   {
     unset($this->s__datos_telefono['form_ml_telefonos.cursor']);
   }
@@ -180,10 +180,8 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_ml_telefonos__modificacion($datos)
   {
-    if ($this->cn()->hay_cursor_persona()) {
-      $this->cn()->procesar_filas_telefono($datos);
-      $datos = $this->cn()->get_telefonos(); // Con esto se obtienen todos los registros que no son de baja
-    }
+    $this->cn()->procesar_filas_telefono($datos);
+    $datos = $this->cn()->get_telefonos(); // Con esto se obtienen todos los registros que no son de baja
     $this->set_cache_form_ml_telefonos($datos);
   }
 
