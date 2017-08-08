@@ -196,7 +196,7 @@ INSERT INTO apex_objeto_db_registros_ext (objeto_proyecto, objeto, externa_id, t
 	'1', --sincro_continua
 	'get_idsExtLocalidad', --metodo
 	'dao_personas', --clase
-	'personas/dao_personas.php', --include
+	'personas_tab/dao_personas.php', --include
 	'2000001', --punto_montaje
 	NULL, --sql
 	'0', --dato_estricto
