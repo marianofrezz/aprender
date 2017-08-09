@@ -1,26 +1,4 @@
 
-CREATE SEQUENCE eaprender.tipos_acciones_id_tipoaccion_seq_1;
-
-CREATE TABLE eaprender.tipos_acciones (
-                id_tipoaccion BIGINT NOT NULL DEFAULT nextval('eaprender.tipos_acciones_id_tipoaccion_seq_1'),
-                nombre_accion VARCHAR NOT NULL,
-                CONSTRAINT tipos_acciones_pk PRIMARY KEY (id_tipoaccion)
-);
-
-
-ALTER SEQUENCE eaprender.tipos_acciones_id_tipoaccion_seq_1 OWNED BY eaprender.tipos_acciones.id_tipoaccion;
-
-CREATE SEQUENCE eaprender.tipos_lineas_id_tipolinea_seq_1;
-
-CREATE TABLE eaprender.tipos_lineas (
-                id_tipolinea BIGINT NOT NULL DEFAULT nextval('eaprender.tipos_lineas_id_tipolinea_seq_1'),
-                nombre_linea VARCHAR NOT NULL,
-                CONSTRAINT tipos_lineas_pk PRIMARY KEY (id_tipolinea)
-);
-
-
-ALTER SEQUENCE eaprender.tipos_lineas_id_tipolinea_seq_1 OWNED BY eaprender.tipos_lineas.id_tipolinea;
-
 CREATE SEQUENCE eaprender.tipos_telefonos_id_tipotelefono_seq_1;
 
 CREATE TABLE eaprender.tipos_telefonos (
@@ -141,47 +119,6 @@ COMMENT ON COLUMN eaprender.telefonos.imagen IS 'Agregamos esta columna con el Ã
 
 ALTER SEQUENCE eaprender.telefonos_id_telefono_seq OWNED BY eaprender.telefonos.id_telefono;
 
-CREATE SEQUENCE eaprender.cambio_lineas_id_cambiolinea_seq;
-
-CREATE TABLE eaprender.cambio_lineas (
-                id_cambiolinea BIGINT NOT NULL DEFAULT nextval('eaprender.cambio_lineas_id_cambiolinea_seq'),
-                id_telefono BIGINT NOT NULL,
-                fecha_cambio DATE NOT NULL,
-                id_tipolinea BIGINT NOT NULL,
-                CONSTRAINT cambio_lineas_pk PRIMARY KEY (id_cambiolinea)
-);
-
-
-ALTER SEQUENCE eaprender.cambio_lineas_id_cambiolinea_seq OWNED BY eaprender.cambio_lineas.id_cambiolinea;
-
-CREATE SEQUENCE eaprender.actividades_id_actividad_seq;
-
-CREATE TABLE eaprender.actividades (
-                id_actividad BIGINT NOT NULL DEFAULT nextval('eaprender.actividades_id_actividad_seq'),
-                fecha DATE NOT NULL,
-                hora DATE NOT NULL,
-                id_cambiolinea BIGINT NOT NULL,
-                id_tipoaccion BIGINT NOT NULL,
-                CONSTRAINT actividades_pk PRIMARY KEY (id_actividad)
-);
-
-
-ALTER SEQUENCE eaprender.actividades_id_actividad_seq OWNED BY eaprender.actividades.id_actividad;
-
-ALTER TABLE eaprender.actividades ADD CONSTRAINT tipos_acciones_actividades_fk
-FOREIGN KEY (id_tipoaccion)
-REFERENCES eaprender.tipos_acciones (id_tipoaccion)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE eaprender.cambio_lineas ADD CONSTRAINT tipos_lineas_cambio_lineas_fk
-FOREIGN KEY (id_tipolinea)
-REFERENCES eaprender.tipos_lineas (id_tipolinea)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
 ALTER TABLE eaprender.telefonos ADD CONSTRAINT tipos_telefonos_telefonos_fk
 FOREIGN KEY (id_tipotelefono)
 REFERENCES eaprender.tipos_telefonos (id_tipotelefono)
@@ -234,20 +171,6 @@ NOT DEFERRABLE;
 ALTER TABLE eaprender.inscripciones ADD CONSTRAINT legajos_inscripciones_fk
 FOREIGN KEY (id_legajo)
 REFERENCES eaprender.legajos (id_legajo)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE eaprender.cambio_lineas ADD CONSTRAINT telefonos_lineas_fk
-FOREIGN KEY (id_telefono)
-REFERENCES eaprender.telefonos (id_telefono)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE eaprender.actividades ADD CONSTRAINT cambio_lineas_actividades_fk
-FOREIGN KEY (id_cambiolinea)
-REFERENCES eaprender.cambio_lineas (id_cambiolinea)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
