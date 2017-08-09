@@ -73,6 +73,11 @@ class cn_personas_tab extends aprender_cn
     }
   }
 
+  function existe_fila_telefono($id_interno)
+  {
+    return $this->dep('dr_personas')->tabla('dt_telefonos')->existe_fila($id_interno);
+  }
+
   function set_cursor_telefono($seleccion)
   {
     $this->dep('dr_personas')->tabla('dt_telefonos')->set_cursor($seleccion);
