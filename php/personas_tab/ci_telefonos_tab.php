@@ -3,6 +3,7 @@ require_once('adebug.php');
 
 class ci_telefonos_tab extends aprender_ci
 {
+  // TODO: corregir todas las referencias a setters y getters de form_ml_telefonos
   protected $sql_state;
   protected $s__datos_telefono;
 
