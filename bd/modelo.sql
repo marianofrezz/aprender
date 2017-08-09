@@ -159,7 +159,7 @@ CREATE SEQUENCE eaprender.actividades_id_actividad_seq;
 CREATE TABLE eaprender.actividades (
                 id_actividad BIGINT NOT NULL DEFAULT nextval('eaprender.actividades_id_actividad_seq'),
                 fecha DATE NOT NULL,
-                hora DATE NOT NULL,
+                hora TIME NOT NULL,
                 id_cambiolinea BIGINT NOT NULL,
                 id_tipoaccion BIGINT NOT NULL,
                 CONSTRAINT actividades_pk PRIMARY KEY (id_actividad)
