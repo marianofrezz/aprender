@@ -1,9 +1,9 @@
 <?php
 require_once('adebug.php');
-
+require_once('php/comunes/cache_form_ml.php');
 class ci_telefonos_tab extends aprender_ci
 {
-  //TODO: Reemplazar las referencias a getters y setters de otros ml aparte de form_ml_telefonos (que ya está arreglado)
+  //TODO: Reemplazar las referencias a getters y setters de todos los formularios ml de manera que ahora usen cache_form_ml.php
   //TODO: Corregir la lógica para que funcione al agregar, quitar y modificar líneas
   protected $sql_state;
   protected $s__datos_telefono;
@@ -82,7 +82,6 @@ class ci_telefonos_tab extends aprender_ci
 
   function conf__form_ml_telefonos($form_ml)
   {
-    ei_arbol(array('existe form_ml_telefonos?:' => $this->pantalla()->existe_dependencia('form_ml_telefonos')));
     $datos = $form_ml->get_cache();
 
     if (!$datos) { // Si no hay datos
@@ -94,7 +93,6 @@ class ci_telefonos_tab extends aprender_ci
     $form_ml->set_datos($datos);
     $form_ml->set_ml_procesado();
     $this->cn()->resetear_cursor_telefono();
-    ei_arbol(array('hay_cursor_telefonos?:' => $this->hay_cursor_telefonos()));
   }
 
   function evt__form_ml_detalle__modificacion($datos)
