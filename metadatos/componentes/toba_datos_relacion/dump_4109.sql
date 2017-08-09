@@ -152,6 +152,25 @@ INSERT INTO apex_objeto_datos_rel_asoc (proyecto, objeto, asoc_id, identificador
 );
 --- FIN Grupo de desarrollo 0
 
+--- INICIO Grupo de desarrollo 8
+INSERT INTO apex_objeto_datos_rel_asoc (proyecto, objeto, asoc_id, identificador, padre_proyecto, padre_objeto, padre_id, padre_clave, hijo_proyecto, hijo_objeto, hijo_id, hijo_clave, cascada, orden) VALUES (
+	'aprender', --proyecto
+	'4109', --objeto
+	'8000068', --asoc_id
+	NULL, --identificador
+	'aprender', --padre_proyecto
+	'4127', --padre_objeto
+	'dt_cambio_linea', --padre_id
+	NULL, --padre_clave
+	'aprender', --hijo_proyecto
+	'4128', --hijo_objeto
+	'dt_actividades', --hijo_id
+	NULL, --hijo_clave
+	NULL, --cascada
+	'3'  --orden
+);
+--- FIN Grupo de desarrollo 8
+
 ------------------------------------------------------------
 -- apex_objeto_rel_columnas_asoc
 ------------------------------------------------------------
@@ -172,4 +191,13 @@ INSERT INTO apex_objeto_rel_columnas_asoc (proyecto, objeto, asoc_id, padre_obje
 	'2000008', --padre_clave
 	'4127', --hijo_objeto
 	'1870'  --hijo_clave
+);
+INSERT INTO apex_objeto_rel_columnas_asoc (proyecto, objeto, asoc_id, padre_objeto, padre_clave, hijo_objeto, hijo_clave) VALUES (
+	'aprender', --proyecto
+	'4109', --objeto
+	'8000068', --asoc_id
+	'4127', --padre_objeto
+	'1869', --padre_clave
+	'4128', --hijo_objeto
+	'1876'  --hijo_clave
 );
