@@ -65,30 +65,6 @@ INSERT INTO apex_objeto_datos_rel (proyecto, objeto, debug, clave, ap, punto_mon
 --- INICIO Grupo de desarrollo 0
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'aprender', --proyecto
-	'2723', --dep_id
-	'4109', --objeto_consumidor
-	'4128', --objeto_proveedor
-	'dt_actividades', --identificador
-	'', --parametros_a
-	'', --parametros_b
-	NULL, --parametros_c
-	NULL, --inicializar
-	NULL  --orden
-);
-INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'aprender', --proyecto
-	'2722', --dep_id
-	'4109', --objeto_consumidor
-	'4127', --objeto_proveedor
-	'dt_cambio_linea', --identificador
-	'', --parametros_a
-	'', --parametros_b
-	NULL, --parametros_c
-	NULL, --inicializar
-	NULL  --orden
-);
-INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'aprender', --proyecto
 	'2705', --dep_id
 	'4109', --objeto_consumidor
 	'2000049', --objeto_proveedor
@@ -134,22 +110,6 @@ INSERT INTO apex_objeto_datos_rel_asoc (proyecto, objeto, asoc_id, identificador
 	NULL, --cascada
 	'1'  --orden
 );
-INSERT INTO apex_objeto_datos_rel_asoc (proyecto, objeto, asoc_id, identificador, padre_proyecto, padre_objeto, padre_id, padre_clave, hijo_proyecto, hijo_objeto, hijo_id, hijo_clave, cascada, orden) VALUES (
-	'aprender', --proyecto
-	'4109', --objeto
-	'127', --asoc_id
-	NULL, --identificador
-	'aprender', --padre_proyecto
-	'2000050', --padre_objeto
-	'dt_telefonos', --padre_id
-	NULL, --padre_clave
-	'aprender', --hijo_proyecto
-	'4127', --hijo_objeto
-	'dt_cambio_linea', --hijo_id
-	NULL, --hijo_clave
-	NULL, --cascada
-	'2'  --orden
-);
 --- FIN Grupo de desarrollo 0
 
 ------------------------------------------------------------
@@ -163,13 +123,4 @@ INSERT INTO apex_objeto_rel_columnas_asoc (proyecto, objeto, asoc_id, padre_obje
 	'2000003', --padre_clave
 	'2000050', --hijo_objeto
 	'2000009'  --hijo_clave
-);
-INSERT INTO apex_objeto_rel_columnas_asoc (proyecto, objeto, asoc_id, padre_objeto, padre_clave, hijo_objeto, hijo_clave) VALUES (
-	'aprender', --proyecto
-	'4109', --objeto
-	'127', --asoc_id
-	'2000050', --padre_objeto
-	'2000008', --padre_clave
-	'4127', --hijo_objeto
-	'1870'  --hijo_clave
 );
