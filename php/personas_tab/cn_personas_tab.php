@@ -35,9 +35,7 @@ class cn_personas_tab extends aprender_cn
 
   function hay_cursor_persona()
   {
-    if ($this->dep('dr_personas')->tabla('dt_personas')->esta_cargada()) {
-      return $this->dep('dr_personas')->tabla('dt_personas')->hay_cursor();
-    }
+    return $this->dep('dr_personas')->tabla('dt_personas')->hay_cursor();
   }
 
   function get_personas()
@@ -68,14 +66,12 @@ class cn_personas_tab extends aprender_cn
 
   function hay_cursor_telefono()
   {
-    if ($this->dep('dr_personas')->tabla('dt_telefonos')->esta_cargada()) {
-      return $this->dep('dr_personas')->tabla('dt_telefonos')->hay_cursor();
-    }
+    return $this->dep('dr_personas')->tabla('dt_telefonos')->hay_cursor();
   }
 
   function resetear_cursor_telefono()
   {
-    return $this->dep('dr_personas')->tabla('dt_telefonos')->resetear_cursor();
+    $this->dep('dr_personas')->tabla('dt_telefonos')->resetear_cursor();
   }
 
   function existe_fila_telefono($id_interno)
@@ -106,10 +102,8 @@ class cn_personas_tab extends aprender_cn
 
   function get_unTelefono()
   {
-    if ($this->dep('dr_personas')->tabla('dt_telefonos')->esta_cargada()) {
-      $array = $this->dep('dr_personas')->tabla('dt_telefonos')->get();
-      return $array;
-    }
+    $array = $this->dep('dr_personas')->tabla('dt_telefonos')->get();
+    return $array;
   }
 
   function setDatos_nuevoTelefono(array $datos)
@@ -134,6 +128,21 @@ class cn_personas_tab extends aprender_cn
     $this->dep('dr_personas')->tabla('dt_cambio_linea')->procesar_filas($datos);
   }
 
+  function set_cursor_lineas($id_interno)
+  {
+    $this->dep('dr_personas')->tabla('dt_cambio_linea')->set_cursor($id_interno);
+  }
+
+  function hay_cursor_lineas()
+  {
+    return $this->dep('dr_personas')->tabla('dt_cambio_linea')->hay_cursor();
+  }
+
+  function resetear_cursor_lineas()
+  {
+    $this->dep('dr_personas')->tabla('dt_cambio_linea')->resetear_cursor();
+  }
+
   //-----------------------------------------------------------------------------------
   //---- dt_cambio_linea --------------------------------------------------------------
   //-----------------------------------------------------------------------------------
@@ -147,12 +156,6 @@ class cn_personas_tab extends aprender_cn
   function procesar_filas_actividades($datos)
   {
     $this->dep('dr_personas')->tabla('dt_actividades')->procesar_filas($datos);
-  }
-
-  function set_cursor_actividades($seleccion)
-  {
-    $id_fila = $this->dep('dr_personas')->tabla('dt_actividades')->get_id_fila_condicion($seleccion)[0];
-    $this->dep('dr_personas')->tabla('dt_actividades')->set_cursor($id_fila);
   }
 }
 
