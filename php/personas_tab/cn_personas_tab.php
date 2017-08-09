@@ -88,9 +88,20 @@ class cn_personas_tab extends aprender_cn
     $this->dep('dr_personas')->tabla('dt_telefonos')->set_cursor($seleccion);
   }
 
+  function eliminar_fila_cursor_telefono()
+  {
+    $id_interno = $this->dep('dr_personas')->tabla('dt_telefonos')->get_cursor();
+    $this->dep('dr_personas')->tabla('dt_telefonos')->eliminar_fila($id_interno);
+  }
+
   function set_telefonos($datos)
   {
     $this->dep('dr_personas')->tabla('dt_telefonos')->set($datos);
+  }
+
+  function nueva_fila_telefono($datos_fila)
+  {
+    return $this->dep('dr_personas')->tabla('dt_telefonos')->nueva_fila($datos_fila);
   }
 
   function get_unTelefono()

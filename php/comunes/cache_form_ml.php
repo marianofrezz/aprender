@@ -1,4 +1,4 @@
-<<?php
+<?php
 /**
  * Esta clase nos ayuda a manejar los caché de los distintos formularios ml con mecanismo PHP Evento que tengamos definidos
  */
@@ -64,7 +64,7 @@ class cache_form_ml
     $this->s__datos['datos'] = $datos;
   }
 
-  function unset_cache(array $datos)
+  function unset_cache()
   {
     unset($this->s__datos['datos']);
   }
