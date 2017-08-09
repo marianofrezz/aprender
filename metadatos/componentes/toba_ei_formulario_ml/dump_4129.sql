@@ -141,7 +141,7 @@ INSERT INTO apex_objeto_ut_formulario (objeto_ut_formulario_proyecto, objeto_ut_
 	'0', --scroll
 	NULL, --filas
 	'1', --filas_agregar
-	'1', --filas_agregar_online
+	'0', --filas_agregar_online
 	'0', --filas_agregar_abajo
 	NULL, --filas_agregar_texto
 	'0', --filas_borrar_en_linea
