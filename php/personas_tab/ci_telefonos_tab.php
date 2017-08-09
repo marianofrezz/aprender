@@ -1,12 +1,12 @@
 <?php
 require_once('adebug.php');
-require_once('php/comunes/cache_form_ml.php');
+require_once('comunes/cache_form_ml.php');
 class ci_telefonos_tab extends aprender_ci
 {
   //TODO: Reemplazar las referencias a getters y setters de todos los formularios ml de manera que ahora usen cache_form_ml.php
   //TODO: Corregir la lógica para que funcione al agregar, quitar y modificar líneas
   protected $sql_state;
-  protected $s__datos_telefono;
+  protected $s__datos;
 
   //-----------------------------------------------------------------------------------
   //---- setters y getters ------------------------------------------------------------
@@ -17,41 +17,41 @@ class ci_telefonos_tab extends aprender_ci
   function get_cache_form_telefono()
   {
     $datos = [];
-    if (isset($this->s__datos_telefono['form_telefono'])) {
-      $datos = $this->s__datos_telefono['form_telefono'];
+    if (isset($this->s__datos['form_telefono'])) {
+      $datos = $this->s__datos['form_telefono'];
     }
     return $datos;
   }
 
   function set_cache_form_telefono(array $datos)
   {
-    $this->s__datos_telefono['form_telefono'] = $datos;
+    $this->s__datos['form_telefono'] = $datos;
   }
 
   function unset_datos_form_telefono()
   {
     $datos = $this->get_cache_form_telefono();
-    unset($this->s__datos_telefono['form_telefono']);
+    unset($this->s__datos['form_telefono']);
   }
 
   function set_cursor_telefonos($id_fila)
   {
-    $this->s__datos_telefono['form_telefono.cursor'] = $id_fila;
+    $this->s__datos['form_telefono.cursor'] = $id_fila;
   }
 
   function unset_cursor_telefonos()
   {
-    unset($this->s__datos_telefono['form_telefono.cursor']);
+    unset($this->s__datos['form_telefono.cursor']);
   }
 
   function get_cursor_telefonos()
   {
-    return $this->s__datos_telefono['form_telefono.cursor'];
+    return $this->s__datos['form_telefono.cursor'];
   }
 
   function hay_cursor_telefonos()
   {
-    return isset($this->s__datos_telefono['form_telefono.cursor']);
+    return isset($this->s__datos['form_telefono.cursor']);
   }
 
   //-----------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_ml_detalle__modificacion($datos)
   {
-    $this->s__datos_telefono['form__ml_detalle'] = $datos;
+    $this->s__datos['form__ml_detalle'] = $datos;
     $this->cn()->procesar_filas_detalle($datos);
   }
 
@@ -205,7 +205,7 @@ class ci_telefonos_tab extends aprender_ci
 
 	function evt__form_ml_actividades__modificacion($datos)
 	{
-    $this->s__datos_telefono['form_ml_actividades'] = $datos;
+    $this->s__datos['form_ml_actividades'] = $datos;
 		$this->cn()->procesar_filas_actividades($datos);
 	}
 
