@@ -46,7 +46,7 @@ class ci_telefonos_tab extends aprender_ci
     return isset($this->s__datos_telefono['form_ml_telefonos.cursor']);
   }
 
-  function set_ml_procesado()
+  function set_ml_telefonos_procesado()
   {
     if ($this->b_hayPeiddoRegistroNuevo()) {
       // Apagamos el pedido de registro nuevo
@@ -243,7 +243,7 @@ class ci_telefonos_tab extends aprender_ci
       }
     }
     $form_ml->set_datos($datos);
-    $this->set_ml_procesado();
+    $this->set_ml_telefonos_procesado();
   }
 
   function evt__form_ml_detalle__modificacion($datos)
@@ -316,7 +316,6 @@ class ci_telefonos_tab extends aprender_ci
       }
     }
     $form_ml->set_datos($datos);
-    $this->set_ml_procesado();
 	}
 
 	function evt__form_ml_lineas__modificacion($datos)
