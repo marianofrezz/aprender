@@ -15,7 +15,7 @@ class aprender_ei_formulario_ml extends toba_ei_formulario_ml
     $this->s__datos['pedido_nuevo?'] = !!$si;
   }
 
-  function hay_peiddo_registro_nuevo()
+  function hay_pedido_registro_nuevo()
   {
     if (isset($this->s__datos['pedido_nuevo?'])) {
       return !!$this->s__datos['pedido_nuevo?'];
@@ -46,7 +46,7 @@ class aprender_ei_formulario_ml extends toba_ei_formulario_ml
 
   function set_ml_procesado()
   {
-    if ($this->hay_peiddo_registro_nuevo()) {
+    if ($this->hay_pedido_registro_nuevo()) {
       // Apagamos el pedido de registro nuevo
       $this->set_pedido_registro_nuevo(false);
     }
@@ -93,7 +93,7 @@ class aprender_ei_formulario_ml extends toba_ei_formulario_ml
   function get_cache_fila($id_fila)
   {
     $resultado = [];
-    
+
     $datos = $this->get_cache();
     foreach ($datos as $key => $value) {
       if (isset($value['x_dbr_clave'])) {
