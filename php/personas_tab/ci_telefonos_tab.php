@@ -12,6 +12,16 @@ class ci_telefonos_tab extends aprender_ci
   //---- setters y getters ------------------------------------------------------------
   //-----------------------------------------------------------------------------------
 
+  // getter form_ml_cache
+
+  function get_cache($nombre_ml)
+  {
+    if (!isset($this->s__datos[$nombre_ml])) {
+      $this->s__datos[$nombre_ml] = new cache_form_ml();
+    }
+    return $this->s__datos[$nombre_ml];
+  }
+
   // setters form_telefono
 
   function get_cache_form_telefono()
@@ -55,24 +65,49 @@ class ci_telefonos_tab extends aprender_ci
   }
 
   //-----------------------------------------------------------------------------------
+  //---- auxiliares -------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------
+
+  function procesar_cacnelar_pedido_registro_nuevo_telefono()
+  {
+    $this->procesar_pedido_registro_nuevo_telefono(true);
+  }
+
+  function procesar_aceptar_pedido_registro_nuevo_telefono()
+  {
+    $this->procesar_pedido_registro_nuevo_telefono(false);
+  }
+
+  function procesar_pedido_registro_nuevo_telefono($cancelar=false)
+  {
+    $ml_tels = $this->get_cache('form_ml_telefonos');
+    if ($ml_tels->hay_pedido_registro_nuevo()) {
+      $ml_tels->set_pedido_registro_nuevo(false);
+      if ($this->cn()->hay_cursor_telefono()) {
+        if ($cancelar) {
+          $this->cn()->eliminar_fila_cursor_telefono();
+        } else {
+          $this->cn()->resetear_cursor_telefono();
+          $ml_tels->unset_cache();
+        }
+      }
+    }
+  }
+
+  //-----------------------------------------------------------------------------------
   //---- Eventos ----------------------------------------------------------------------
   //-----------------------------------------------------------------------------------
 
   function evt__cancelar()
   {
     $this->borrar_memoria();
-    $this->unset_datos();
+    unset($this->s__datos);
     $this->set_pantalla('pant_ml_tel');
-  }
-
-  function unset_datos()
-  {
-    $this->dep('form_ml_lineas')->set_cache([]);
-    $this->dep('form_ml_actividades')->set_cache([]);
   }
 
   function evt__procesar()
   {
+    $this->procesar_aceptar_pedido_registro_nuevo_telefono();
     $this->set_pantalla('pant_ml_tel');
   }
 
@@ -82,34 +117,29 @@ class ci_telefonos_tab extends aprender_ci
 
   function conf__form_ml_telefonos($form_ml)
   {
-    $datos = $form_ml->get_cache();
+    $cache_ml = $this->get_cache('form_ml_telefonos');
+    $datos = $cache_ml->get_cache();
 
     if (!$datos) { // Si no hay datos
       if ($this->cn()->hay_cursor_persona()) {
         $datos = $this->cn()->get_telefonos();
-        $form_ml->set_cache($datos);
+        $cache_ml->set_cache($datos);
       }
     }
     $form_ml->set_datos($datos);
-    $form_ml->set_ml_procesado();
+    $cache_ml->set_ml_procesado();
     $this->cn()->resetear_cursor_telefono();
-  }
-
-  function evt__form_ml_detalle__modificacion($datos)
-  {
-    $this->s__datos['form__ml_detalle'] = $datos;
-    $this->cn()->procesar_filas_detalle($datos);
   }
 
   function evt__form_ml_telefonos__ver_detalle($seleccion)
   {
-    $datos_fila = $this->dep('form_ml_telefonos')->get_cache_fila($seleccion);
+    $datos_fila = $this->get_cache('form_ml_telefonos')->get_cache_fila($seleccion);
     $this->set_cache_form_telefono($datos_fila);
 
     if ($this->cn()->existe_fila_telefono($seleccion)) {
       $this->cn()->set_cursor_telefono($seleccion);
       $datos_lineas = $this->cn()->get_lineas();
-      $this->dep('form_ml_lineas')->set_cache($datos_lineas);
+      $this->get_cache('form_ml_lineas')->set_cache($datos_lineas);
     }
 
     $this->set_pantalla('pant_un_tel');
@@ -118,7 +148,7 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_ml_telefonos__pedido_registro_nuevo()
   {
-    $this->dep('form_ml_telefonos')->set_pedido_registro_nuevo(true);
+    $this->get_cache('form_ml_telefonos')->set_pedido_registro_nuevo(true);
     $this->unset_datos_form_telefono();
     $this->set_pantalla('pant_un_tel');
   }
@@ -127,7 +157,7 @@ class ci_telefonos_tab extends aprender_ci
   {
     $this->cn()->procesar_filas_telefono($datos);
     $datos = $this->cn()->get_telefonos(); // Con esto se obtienen todos los registros que no son de baja
-    $this->dep('form_ml_telefonos')->set_cache($datos);
+    $this->get_cache('form_ml_telefonos')->set_cache($datos);
   }
 
   //-----------------------------------------------------------------------------------
@@ -136,8 +166,11 @@ class ci_telefonos_tab extends aprender_ci
 
   function conf__form_telefono(aprender_ei_formulario $form)
   {
-    if (!$this->dep('form_ml_telefonos')->hay_pedido_registro_nuevo()) {
+    if ($this->cn()->hay_cursor_telefono()) {
       $datos = $this->get_cache_form_telefono();
+      if (!$datos) {
+        $datos = $this->cn()->get_unTelefono();
+      }
       $form->set_datos($datos);
     }
   }
@@ -163,14 +196,13 @@ class ci_telefonos_tab extends aprender_ci
 
 	function conf__form_ml_lineas(aprender_ei_formulario_ml $form_ml)
 	{
-    $ml_lineas = $this->dep('form_ml_lineas');
+    $cache_ml_lineas = $this->get_cache('form_ml_lineas');
 
-    $datos = $ml_lineas->get_cache();
-    ei_arbol(array('$datos cache_lineas:' => $datos));
+    $datos = $cache_ml_lineas->get_cache();
     if (!$datos) { // Si no hay datos
       if ($this->cn()->hay_cursor_telefono()) {
         $datos = $this->cn()->get_lineas();
-        $ml_lineas->set_cache($datos);
+        $cache_ml_lineas->set_cache($datos);
       }
     }
     $form_ml->set_datos($datos);
@@ -178,9 +210,8 @@ class ci_telefonos_tab extends aprender_ci
 
 	function evt__form_ml_lineas__modificacion($datos)
 	{
-    $this->cn()->procesar_filas_linea($datos);
     $datos = $this->cn()->get_lineas(); // Con esto se obtienen todos los registros que no son de baja
-    $this->dep('form_ml_lineas')->set_cache($datos);
+    $this->get_cache('form_ml_lineas')->set_cache($datos);
 	}
 
   function evt__form_ml_lineas__ver_actividad($seleccion)
@@ -194,9 +225,10 @@ class ci_telefonos_tab extends aprender_ci
 
 	function conf__form_ml_actividades(aprender_ei_formulario_ml $form_ml)
 	{
-		if ($this->dep('form_ml_lineas')->hay_cursor_cache()) {
+    $cache_ml = $this->get_cache('form_ml_actividades');
+		if ($this->get_cache('form_ml_lineas')->hay_cursor_cache()) {
 			$datos = $this->cn()->get_actividades();
-			$form_ml->set_cache($datos);
+			$cache_ml->set_cache($datos);
 		  $form_ml->set_datos($datos);
 		} else {
 			$form_ml->desactivar_agregado_filas();
@@ -205,7 +237,6 @@ class ci_telefonos_tab extends aprender_ci
 
 	function evt__form_ml_actividades__modificacion($datos)
 	{
-    $this->s__datos['form_ml_actividades'] = $datos;
 		$this->cn()->procesar_filas_actividades($datos);
 	}
 
