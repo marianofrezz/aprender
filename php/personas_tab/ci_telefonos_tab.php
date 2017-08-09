@@ -117,6 +117,15 @@ class ci_telefonos_tab extends aprender_ci
 
   function conf__form_ml_telefonos($form_ml)
   {
+    // Cancelamos el pedido de registro nuevo si todavía no fue aceptado
+    // Esto es así para el caso de que el usuario:
+    //   - Esté editando un telefono nuevo
+    //   - Haga clic en la pestaña personas sin hacer clic en guardar
+    //   - Al volver a la pestaña telefonos se debe procesar una cancelación del registro nuevo telefono
+    //TODO:- El problema está en la siguiente situación:
+    //     - El usuario hace clic en la pestaña personas y luego hace clic en guardar
+    //     - El cn todavía cree que el usuario aceptó la nueva fila de telefono y se va a registrar en la base de datos
+    $this->procesar_cacnelar_pedido_registro_nuevo_telefono();
     $cache_ml = $this->get_cache('form_ml_telefonos');
     $datos = $cache_ml->get_cache();
 
@@ -177,15 +186,18 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_telefono__modificacion($datos)
   {
-    $ml_telefonos = $this->dep('form_ml_telefonos');
+    $cache_ml_tels = $this->get_cache('form_ml_telefonos');
 
-    if ($ml_telefonos->hay_pedido_registro_nuevo()) {
-      $ml_telefonos->set_registro_nuevo($datos);
+    if ($cache_ml_tels->hay_pedido_registro_nuevo()) {
+      if (!$this->cn()->hay_cursor_telefono()) {
+        $id_interno_fila = $this->cn()->nueva_fila_telefono($datos);
+        $this->cn()->set_cursor_telefono($id_interno_fila);
+      }
     } else {
       $this->set_cache_form_telefono($datos);
-      if ($ml_telefonos->hay_cursor_cache()) {
-        $id_fila = $ml_telefonos->get_cursor_cache();
-        $ml_telefonos->set_cache_fila($id_fila, $datos);
+      if ($cache_ml_tels->hay_cursor_cache()) {
+        $id_fila = $cache_ml_tels->get_cursor_cache();
+        $cache_ml_tels->set_cache_fila($id_fila, $datos);
       }
     }
   }
