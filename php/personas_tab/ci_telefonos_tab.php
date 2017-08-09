@@ -3,7 +3,8 @@ require_once('adebug.php');
 
 class ci_telefonos_tab extends aprender_ci
 {
-  // TODO: corregir todas las referencias a setters y getters de form_ml_telefonos
+  //TODO: Reemplazar las referencias a getters y setters de otros ml aparte de form_ml_telefonos (que ya está arreglado)
+  //TODO: Corregir la lógica para que funcione al agregar, quitar y modificar líneas
   protected $sql_state;
   protected $s__datos_telefono;
 
@@ -142,15 +143,16 @@ class ci_telefonos_tab extends aprender_ci
 
   function conf__form_ml_telefonos($form_ml)
   {
-    $datos = $this->get_cache_form_ml_telefonos();
+    $datos = $form_ml->get_cache();
+
     if (!$datos) { // Si no hay datos
       if ($this->cn()->hay_cursor_persona()) {
         $datos = $this->cn()->get_telefonos();
-        $this->set_cache_form_ml_telefonos($datos);
+        $form_ml->set_cache($datos);
       }
     }
     $form_ml->set_datos($datos);
-    $this->set_ml_telefonos_procesado();
+    $form_ml->set_ml_procesado();
   }
 
   function evt__form_ml_detalle__modificacion($datos)
@@ -161,7 +163,7 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_ml_telefonos__ver_detalle($seleccion)
   {
-    $datos_telefonos = $this->get_cache_fila_form_ml_telefonos($seleccion);
+    $datos_telefonos = $this->dep('form_ml_telefonos')->get_cache_fila($seleccion);
     $datos_lineas = $this->get_cache_fila_form_ml_lineas($seleccion);
     $this->set_cache_form_telefono($datos_telefonos);
     $this->set_cache_form_ml_lineas($datos_lineas);
@@ -171,7 +173,7 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_ml_telefonos__pedido_registro_nuevo()
   {
-    $this->set_pedidoRegistroNuevo(true);
+    $this->dep('form_ml_telefonos')->set_pedido_registro_nuevo(true);
     $this->unset_datos_form_telefono();
     $this->set_pantalla('pant_un_tel');
   }
@@ -180,7 +182,7 @@ class ci_telefonos_tab extends aprender_ci
   {
     $this->cn()->procesar_filas_telefono($datos);
     $datos = $this->cn()->get_telefonos(); // Con esto se obtienen todos los registros que no son de baja
-    $this->set_cache_form_ml_telefonos($datos);
+    $this->dep('form_ml_telefonos')->set_cache($datos);
   }
 
   //-----------------------------------------------------------------------------------
@@ -198,13 +200,12 @@ class ci_telefonos_tab extends aprender_ci
   function evt__form_telefono__modificacion($datos)
   {
     if ($this->b_hayPeiddoRegistroNuevo()) {
-      $form_ml_telefonos = $this->dep('form_ml_telefonos');
-      $form_ml_telefonos->set_registro_nuevo($datos);
+      $this->dep('form_ml_telefonos')->set_registro_nuevo($datos);
     } else {
       $this->set_cache_form_telefono($datos);
       if ($this->hay_cursor_ml_telefonos()) {
         $id_fila = $this->get_cursor_ml_telefonos();
-        $this->set_cache_fila_form_ml_telefonos($id_fila, $datos);
+        $this->dep('form_ml_telefonos')->set_cache_fila($id_fila, $datos);
       }
     }
   }
