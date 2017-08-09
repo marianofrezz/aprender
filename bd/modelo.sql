@@ -13,7 +13,7 @@ ALTER SEQUENCE eaprender.tipos_acciones_id_tipoaccion_seq_1 OWNED BY eaprender.t
 CREATE SEQUENCE eaprender.tipos_lineas_id_tipolinea_seq_1;
 
 CREATE TABLE eaprender.tipos_lineas (
-                id_tipolinea DATE NOT NULL DEFAULT nextval('eaprender.tipos_lineas_id_tipolinea_seq_1'),
+                id_tipolinea BIGINT NOT NULL DEFAULT nextval('eaprender.tipos_lineas_id_tipolinea_seq_1'),
                 nombre_linea VARCHAR NOT NULL,
                 CONSTRAINT tipos_lineas_pk PRIMARY KEY (id_tipolinea)
 );
@@ -147,7 +147,7 @@ CREATE TABLE eaprender.cambio_lineas (
                 id_cambiolinea BIGINT NOT NULL DEFAULT nextval('eaprender.cambio_lineas_id_cambiolinea_seq'),
                 id_telefono BIGINT NOT NULL,
                 fecha_cambio DATE NOT NULL,
-                id_tipolinea DATE NOT NULL,
+                id_tipolinea BIGINT NOT NULL,
                 CONSTRAINT cambio_lineas_pk PRIMARY KEY (id_cambiolinea)
 );
 
