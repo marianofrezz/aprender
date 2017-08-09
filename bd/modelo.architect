@@ -253,7 +253,7 @@
     <column id="COL67" populated="true" UUID="857b63e3-7613-4e75-954d-e1f0883c6cad" autoIncrement="false" autoIncrementSequenceName="cambio_lineas_fecha_cambio_seq" defaultValue="" name="fecha_cambio" nullable="0" physicalName="fecha_cambio" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
      <remarks></remarks>
     </column>
-    <column id="COL68" populated="true" UUID="8f8685e2-dcba-4401-851f-7e0f459934d7" autoIncrement="false" autoIncrementSequenceName="tipos_lineas_id_tipolinea_seq" defaultValue="" name="id_tipolinea" nullable="0" physicalName="id_tipolinea" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+    <column id="COL68" populated="true" UUID="8f8685e2-dcba-4401-851f-7e0f459934d7" autoIncrement="false" autoIncrementSequenceName="tipos_lineas_id_tipolinea_seq" defaultValue="" name="id_tipolinea" nullable="0" physicalName="id_tipolinea" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
      <remarks></remarks>
     </column>
     </folder>
@@ -299,7 +299,7 @@
   <table id="TAB79" populated="true" UUID="25f00036-5d7f-429e-9c17-a7b671fb6801" name="tipos_lineas" objectType="TABLE" physicalName="tipos_lineas" >
    <remarks></remarks>
    <folder id="FOLTAB791" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL80" populated="true" UUID="e015696d-b18a-4fc1-ae45-add0beeae906" autoIncrement="true" autoIncrementSequenceName="tipos_lineas_id_tipolinea_seq_1" defaultValue="" name="id_tipolinea" nullable="0" physicalName="id_tipolinea" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+    <column id="COL80" populated="true" UUID="e015696d-b18a-4fc1-ae45-add0beeae906" autoIncrement="true" autoIncrementSequenceName="tipos_lineas_id_tipolinea_seq_1" defaultValue="" name="id_tipolinea" nullable="0" physicalName="id_tipolinea" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
      <remarks></remarks>
     </column>
     <column id="COL81" populated="true" UUID="a8dc0f3f-252a-4ff9-8005-cc947846306a" autoIncrement="false" autoIncrementSequenceName="tipos_lineas_nombre_linea_seq" defaultValue="" name="nombre_linea" nullable="0" physicalName="nombre_linea" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -378,7 +378,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="eaprender"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537143" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="315" y="206" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB10" x="297" y="34" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB15" x="715" y="111" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
