@@ -97,6 +97,42 @@ class cn_personas_tab extends aprender_cn
     $id_fila_condicion = $this->dep('dr_personas')->tabla('dt_telefonos')->get_filas()[0]['x_dbr_clave'];
     $this->dep('dr_personas')->tabla('dt_telefonos')->set_cursor($id_fila_condicion);
   }
+
+  //-----------------------------------------------------------------------------------
+  //---- dt_cambio_linea --------------------------------------------------------------
+  //-----------------------------------------------------------------------------------
+
+  function get_lineas()
+  {
+    $datos = $this->dep('dr_personas')->tabla('dt_cambio_linea')->get_filas();
+    return $datos;
+  }
+
+  function procesar_filas_linea($datos)
+  {
+    $this->dep('dr_personas')->tabla('dt_cambio_linea')->procesar_filas($datos);
+  }
+
+  //-----------------------------------------------------------------------------------
+  //---- dt_cambio_linea --------------------------------------------------------------
+  //-----------------------------------------------------------------------------------
+
+  function get_actividades()
+  {
+    $datos = $this->dep('dr_personas')->tabla('dt_actividades')->get_filas();
+    return $datos;
+  }
+
+  function procesar_filas_actividades($datos)
+  {
+    $this->dep('dr_personas')->tabla('dt_actividades')->procesar_filas($datos);
+  }
+
+  function set_cursor_actividades($seleccion)
+  {
+    $id_fila = $this->dep('dr_personas')->tabla('dt_actividades')->get_id_fila_condicion($seleccion)[0];
+    $this->dep('dr_personas')->tabla('dt_actividades')->set_cursor($id_fila);
+  }
 }
 
 ?>
