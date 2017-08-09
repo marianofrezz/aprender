@@ -3,8 +3,6 @@ require_once('adebug.php');
 require_once('comunes/cache_form_ml.php');
 class ci_telefonos_tab extends aprender_ci
 {
-  //TODO: Reemplazar las referencias a getters y setters de todos los formularios ml de manera que ahora usen cache_form_ml.php
-  //TODO: Corregir la lógica para que funcione al agregar, quitar y modificar líneas
   protected $sql_state;
   protected $s__datos;
 
