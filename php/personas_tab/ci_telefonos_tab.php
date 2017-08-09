@@ -222,13 +222,14 @@ class ci_telefonos_tab extends aprender_ci
 
 	function evt__form_ml_lineas__modificacion($datos)
 	{
+    $this->cn()->procesar_filas_linea($datos);
     $datos = $this->cn()->get_lineas(); // Con esto se obtienen todos los registros que no son de baja
     $this->get_cache('form_ml_lineas')->set_cache($datos);
 	}
 
   function evt__form_ml_lineas__ver_actividad($seleccion)
   {
-	   $this->cn()->set_cursor_actividades($seleccion);
+    $this->get_cache('form_ml_lineas')->set_cursor_cache($seleccion);
   }
 
 	//-----------------------------------------------------------------------------------
@@ -237,10 +238,8 @@ class ci_telefonos_tab extends aprender_ci
 
 	function conf__form_ml_actividades(aprender_ei_formulario_ml $form_ml)
 	{
-    $cache_ml = $this->get_cache('form_ml_actividades');
-		if ($this->get_cache('form_ml_lineas')->hay_cursor_cache()) {
+		if ($this->cn()->hay_cursor_lineas()) {
 			$datos = $this->cn()->get_actividades();
-			$cache_ml->set_cache($datos);
 		  $form_ml->set_datos($datos);
 		} else {
 			$form_ml->desactivar_agregado_filas();
@@ -250,6 +249,7 @@ class ci_telefonos_tab extends aprender_ci
 	function evt__form_ml_actividades__modificacion($datos)
 	{
 		$this->cn()->procesar_filas_actividades($datos);
+    $this->cn()->resetear_cursor_lineas();
 	}
 
   //-----------------------------------------------------------------------------------
@@ -261,6 +261,21 @@ class ci_telefonos_tab extends aprender_ci
     $this->controlador()->controlador()->pantalla()->eliminar_evento('procesar');
     $this->controlador()->controlador()->pantalla()->eliminar_evento('cancelar');
   }
+
+	//-----------------------------------------------------------------------------------
+	//---- Eventos ----------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
+
+	function post_eventos()
+	{
+    // Debemos usar este evento para setear el cursor del dt de cambio_lineas porque de lo contrario el cursor se setea muy temprano y los registros se vinculan incorrectamente
+    $cache_frm_lineas = $this->get_cache('form_ml_lineas');
+    if ($cache_frm_lineas->hay_cursor_cache()) {
+      $cursor = $cache_frm_lineas->get_cursor_cache();
+      $cache_frm_lineas->unset_cursor_cache();
+      $this->cn()->set_cursor_lineas($cursor);
+    }
+	}
 
 }
 ?>
