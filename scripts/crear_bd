@@ -1,0 +1,41 @@
+#!/bin/bash
+DIR=$( cd $(dirname $0) ; pwd -P )
+
+PROYECTO="aprender"
+
+CARPETAPROY="$DIR/.."
+SUBCARPETASQL="bd/"
+
+HOST="localhost"
+PUERTO="5432"
+
+echo " "
+
+if [ $1 ]; then
+   HOST="$1"
+   echo "Info: Definido host = $HOST"
+fi
+
+if [ $2 ]; then
+   PUERTO="$2"
+   echo "Info: Definido puerto = $PUERTO"
+fi
+
+if [ $3 ]; then
+   CARPETAPROY="$3"
+   echo "Info: Definido CARPETAPROY = $CARPETAPROY"
+fi
+
+while [ ! -d "$CARPETAPROY/$SUBCARPETASQL" ]; do
+  echo "Info: no se encontró "$CARPETAPROY/$SUBCARPETASQL
+  echo "Para finalizar presione Ctrl+C"
+  read -p "Para continuar ingrese la direccion de su carpeta toba: "
+  CARPETAPROY="$REPLY"
+done
+
+echo "Info: Se asume que el proyecto se encuentra en $CARPETAPROY; proyecto=$PROYECTO; sqls en $SUBCARPETASQL"
+echo "Info postgres: host=$HOST; puerto=$PUERTO;"
+
+CARPETASQL=$CARPETAPROY/$SUBCARPETASQL
+
+psql -q -h "$HOST" -p "$PUERTO" -U postgres -f $CARPETASQL/crear_bd.sql

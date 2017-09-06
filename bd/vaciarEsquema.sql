@@ -1,2 +1,2 @@
-DROP SCHEMA eaprender CASCADE;
+DROP SCHEMA IF EXISTS eaprender CASCADE;
 CREATE SCHEMA eaprender;
