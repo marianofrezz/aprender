@@ -228,7 +228,17 @@ class ci_personas extends aprender_ci
 			$datos = dao_personas::get_opcionesLocalidad($id_provincia);
 			$datos = array_merge($nopar, $datos);
 		}
+		$this->informar_a_toba_opciones_ef($datos, 'id_localidad', 'form_untelefono', 'idlocalidad_cascada_manual');
 		$respuesta->set($datos);
+	}
+
+	function informar_a_toba_opciones_ef($datos, $nom_columnaId, $nom_form, $nom_ef)
+	{
+		$sesion = [];
+		foreach ($datos as $key => $value) {
+			$sesion[] = $value[$nom_columnaId];
+		}
+		$this->dep($nom_form)->ef($nom_ef)->guardar_dato_sesion($sesion, true);
 	}
 }
 ?>
