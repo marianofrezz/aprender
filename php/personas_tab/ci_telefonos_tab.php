@@ -42,6 +42,12 @@ class ci_telefonos_tab extends aprender_ci
     unset($this->s__datos['form_telefono']);
   }
 
+  function unset_datos_form_lineas()
+  {
+    $datos = $this->get_cache('form_ml_lineas');
+    unset($this->s__datos['form_ml_lineas']);
+  }
+
   function set_cursor_telefonos($id_fila)
   {
     $this->s__datos['form_telefono.cursor'] = $id_fila;
@@ -157,6 +163,7 @@ class ci_telefonos_tab extends aprender_ci
   {
     $this->get_cache('form_ml_telefonos')->set_pedido_registro_nuevo(true);
     $this->unset_datos_form_telefono();
+    $this->unset_datos_form_lineas();
     $this->set_pantalla('pant_un_tel');
   }
 
@@ -246,8 +253,8 @@ class ci_telefonos_tab extends aprender_ci
 
 	function evt__form_ml_actividades__modificacion($datos)
 	{
-		$this->cn()->procesar_filas_actividades($datos);
-    $this->cn()->resetear_cursor_lineas();
+      $this->cn()->procesar_filas_actividades($datos);
+      $this->cn()->resetear_cursor_lineas();
 	}
 
   //-----------------------------------------------------------------------------------
@@ -273,6 +280,52 @@ class ci_telefonos_tab extends aprender_ci
       $cache_frm_lineas->unset_cursor_cache();
       $this->cn()->set_cursor_lineas($cursor);
     }
+	}
+
+	//-----------------------------------------------------------------------------------
+	//---- form_ml_fotos ----------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
+
+	function conf__form_ml_fotos(aprender_ei_formulario_ml $form_ml)
+	{
+      if ($this->cn()->hay_cursor_telefono()) {
+        $datos = $this->cn()->get_fotos_telefonos();
+        $datos = $this->cn()->get_blobs_fotos($datos);
+        $form_ml->set_datos($datos);
+      }
+	}
+
+	function evt__form_ml_fotos__modificacion($datos)
+	{
+
+    	$anterior = $this->get_cache('form_ml_fotos');
+    	foreach ($anterior as $keya => $valuea) {
+    		foreach ($datos as $keyd => $valued) {
+    			if (isset($valuea['id_fototel'])){
+    				if (isset($valued['id_fototel'])){
+    					if ($valuea['id_fototel']=$valued['id_fototel']){
+    						if (isset($valuea['imagen']) && !isset($valued['imagen'])){
+    							$datos[$keyd]['imagen'] = $valuea['imagen'];
+    							$datos[$keyd]['imagen?html'] = $valuea['imagen?html'];
+    							$datos[$keyd]['imagen?url'] = $valuea['imagen?url'];
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
+
+    	if ($datos){
+        $this->cn()->procesar_filas_fotos_telefonos($datos);
+        $this->cn()->set_blobs_fotos($datos);
+        $this->get_cache('form_ml_fotos')->set_cache($datos);
+    		}
+
+    // $this->cn()->procesar_filas_fotos_telefonos($datos);
+    // $this->cn()->set_blobs_fotos($datos);
+    
+    $this->cn()->resetear_cursor_telefono();
+
 	}
 
 }

@@ -159,6 +159,18 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'aprender', --proyecto
+	'2913', --dep_id
+	'4113', --objeto_consumidor
+	'4314', --objeto_proveedor
+	'form_ml_fotos', --identificador
+	NULL, --parametros_a
+	NULL, --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	NULL  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'aprender', --proyecto
 	'2724', --dep_id
 	'4113', --objeto_consumidor
 	'4129', --objeto_proveedor
@@ -261,15 +273,22 @@ INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id)
 	'aprender', --proyecto
 	'1774', --pantalla
 	'4113', --objeto_ci
-	'1', --orden
+	'2', --orden
 	'2724'  --dep_id
 );
 INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
 	'aprender', --proyecto
 	'1774', --pantalla
 	'4113', --objeto_ci
-	'2', --orden
+	'3', --orden
 	'2725'  --dep_id
+);
+INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
+	'aprender', --proyecto
+	'1774', --pantalla
+	'4113', --objeto_ci
+	'1', --orden
+	'2913'  --dep_id
 );
 
 ------------------------------------------------------------
