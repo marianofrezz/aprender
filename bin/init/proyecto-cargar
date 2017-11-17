@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+cd `dirname $0`
+
+if [ ! -f ../../proyecto.ini ];
+then
+    echo "No se puede cargar el proyecto porque no existe un 'proyecto.ini'"
+    exit 1
+fi
+
+PROY=${TOBA_PROYECTO}
+unset TOBA_PROYECTO
+PATH_PROY=`realpath ../..`
+toba proyecto cargar -d ${PATH_PROY} -p ${PROY} -a0 -i desarrollo
+export TOBA_PROYECTO=${PROY}

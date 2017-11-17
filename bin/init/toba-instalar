@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+cd `dirname $0`
+
+set -x
+../../vendor/siu-toba/framework/bin/instalar
+ln -s /var/local/docker-data/${PROY}-instalacion/toba.conf /etc/apache2/sites-enabled/toba_3_0.conf
+service apache2 reload
+set +x

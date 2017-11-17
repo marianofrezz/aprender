@@ -1,0 +1,34 @@
+pg:
+  image: postgres:9.6
+  ports:
+   - "7432:5432"
+  container_name: pg
+  environment:
+    POSTGRES_USER       : postgres
+    POSTGRES_PASSWORD   : <password-de-la-base1>
+
+aprender:
+  image: siutoba/docker-toba
+  container_name: aprender
+  ports:
+   - "7008:80"
+  environment:
+    DOCKER_NAME                       : aprender
+    DOCKER_WEB_PORT                   : 7008
+    TOBA_PASS                         : <password-de-toba>
+    TOBA_BASE_PASS                    : <password-de-la-base2>
+    TOBA_DIR                          : /var/local/aprender/vendor/siu-toba/framework
+    TOBA_INSTALACION_DIR              : /var/local/docker-data/aprender-instalacion
+    TOBA_BASE_HOST                    : pg
+    TOBA_BASE_NOMBRE                  : toba_aprender
+    TOBA_PROYECTO                     : aprender
+    TOBA_PROYECTO_DIR                 : /var/local/aprender
+    TOBA_PROYECTO_ALIAS               : /aprender
+    TOBA_PROYECTO_INSTALAR            : "True"
+    TOBA_INSTALAR_REFERENCIA          : "True"
+    TOBA_INSTALAR_USUARIOS            : "True"
+  links:
+   - pg
+  volumes:
+   - .:/var/local/aprender
+   - ./instalacion:/var/local/docker-data/aprender-instalacion

@@ -1,0 +1,5 @@
+set -x
+cd `dirname $0`/../..
+pwd
+composer install
+set +x
