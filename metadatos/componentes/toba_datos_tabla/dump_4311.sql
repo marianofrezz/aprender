@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[4128]--  - dr_personas - dt_actividades 
+--[4311]--  - dr_personas - dt_actividades 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -9,7 +9,7 @@
 --- INICIO Grupo de desarrollo 0
 INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, clase_proyecto, clase, punto_montaje, subclase, subclase_archivo, objeto_categoria_proyecto, objeto_categoria, nombre, titulo, colapsable, descripcion, fuente_datos_proyecto, fuente_datos, solicitud_registrar, solicitud_obj_obs_tipo, solicitud_obj_observacion, parametro_a, parametro_b, parametro_c, parametro_d, parametro_e, parametro_f, usuario, creacion, posicion_botonera) VALUES (
 	'aprender', --proyecto
-	'4128', --objeto
+	'4311', --objeto
 	NULL, --anterior
 	NULL, --identificador
 	NULL, --reflexivo
@@ -36,7 +36,7 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	NULL, --parametro_e
 	NULL, --parametro_f
 	NULL, --usuario
-	'2017-08-08 15:28:48', --creacion
+	'2017-11-12 08:18:31', --creacion
 	NULL  --posicion_botonera
 );
 --- FIN Grupo de desarrollo 0
@@ -46,7 +46,7 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 ------------------------------------------------------------
 INSERT INTO apex_objeto_db_registros (objeto_proyecto, objeto, max_registros, min_registros, punto_montaje, ap, ap_clase, ap_archivo, tabla, tabla_ext, alias, modificar_claves, fuente_datos_proyecto, fuente_datos, permite_actualizacion_automatica, esquema, esquema_ext) VALUES (
 	'aprender', --objeto_proyecto
-	'4128', --objeto
+	'4311', --objeto
 	NULL, --max_registros
 	NULL, --min_registros
 	'2000001', --punto_montaje
@@ -71,8 +71,8 @@ INSERT INTO apex_objeto_db_registros (objeto_proyecto, objeto, max_registros, mi
 --- INICIO Grupo de desarrollo 0
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
 	'aprender', --objeto_proyecto
-	'4128', --objeto
-	'1873', --col_id
+	'4311', --objeto
+	'2016', --col_id
 	'id_actividad', --columna
 	'E', --tipo
 	'1', --pk
@@ -85,8 +85,8 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 );
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
 	'aprender', --objeto_proyecto
-	'4128', --objeto
-	'1874', --col_id
+	'4311', --objeto
+	'2017', --col_id
 	'fecha', --columna
 	'F', --tipo
 	'0', --pk
@@ -99,10 +99,10 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 );
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
 	'aprender', --objeto_proyecto
-	'4128', --objeto
-	'1875', --col_id
+	'4311', --objeto
+	'2018', --col_id
 	'hora', --columna
-	'F', --tipo
+	'T', --tipo
 	'0', --pk
 	'', --secuencia
 	NULL, --largo
@@ -113,8 +113,8 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 );
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
 	'aprender', --objeto_proyecto
-	'4128', --objeto
-	'1876', --col_id
+	'4311', --objeto
+	'2019', --col_id
 	'id_cambiolinea', --columna
 	'E', --tipo
 	'0', --pk
@@ -127,8 +127,8 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 );
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
 	'aprender', --objeto_proyecto
-	'4128', --objeto
-	'1877', --col_id
+	'4311', --objeto
+	'2020', --col_id
 	'id_tipoaccion', --columna
 	'E', --tipo
 	'0', --pk

@@ -21,7 +21,7 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
 	'ci_personas_tab - ci_modificarpersona_tab - ci_telefonos_tab - form_ml_lineas', --nombre
-	NULL, --titulo
+	'Lineas', --titulo
 	'0', --colapsable
 	NULL, --descripcion
 	'aprender', --fuente_datos_proyecto
@@ -141,7 +141,7 @@ INSERT INTO apex_objeto_ut_formulario (objeto_ut_formulario_proyecto, objeto_ut_
 	'0', --scroll
 	NULL, --filas
 	'1', --filas_agregar
-	'0', --filas_agregar_online
+	'1', --filas_agregar_online
 	'0', --filas_agregar_abajo
 	NULL, --filas_agregar_texto
 	'0', --filas_borrar_en_linea

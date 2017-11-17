@@ -168,6 +168,18 @@ CREATE TABLE eaprender.actividades (
 
 ALTER SEQUENCE eaprender.actividades_id_actividad_seq OWNED BY eaprender.actividades.id_actividad;
 
+CREATE SEQUENCE eaprender.fotos_telefonos_id_fototel_seq;
+
+CREATE TABLE eaprender.fotos_telefonos (
+                id_fototel BIGINT NOT NULL DEFAULT nextval('eaprender.fotos_telefonos_id_fototel_seq'),
+                id_telefono BIGINT NOT NULL,
+                marca VARCHAR NOT NULL,
+                imagen BYTEA,
+                CONSTRAINT fotos_telefonos_pk PRIMARY KEY (id_fototel)
+);
+
+ALTER SEQUENCE eaprender.fotos_telefonos_id_fototel_seq OWNED BY eaprender.fotos_telefonos.id_fototel;
+
 ALTER TABLE eaprender.actividades ADD CONSTRAINT tipos_acciones_actividades_fk
 FOREIGN KEY (id_tipoaccion)
 REFERENCES eaprender.tipos_acciones (id_tipoaccion)
@@ -248,6 +260,13 @@ NOT DEFERRABLE;
 ALTER TABLE eaprender.actividades ADD CONSTRAINT cambio_lineas_actividades_fk
 FOREIGN KEY (id_cambiolinea)
 REFERENCES eaprender.cambio_lineas (id_cambiolinea)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE eaprender.fotos_telefonos ADD CONSTRAINT telefonos_fotos_fk
+FOREIGN KEY (id_telefono)
+REFERENCES eaprender.telefonos (id_telefono)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
