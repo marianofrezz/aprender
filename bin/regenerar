@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+toba proyecto regenerar -p ${PROY} -i desarrollo

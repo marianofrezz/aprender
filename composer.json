@@ -1,0 +1,23 @@
+{
+  "name": "aprender",
+  "description": "",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.siu.edu.ar"
+    }
+  ],
+  "require": {
+    "siu-toba/framework": "^3.0"    
+  },
+  "scripts": {
+     "post-install-cmd": [
+           "composer run-script post-install-cmd -d ./vendor/siu-toba/framework/"
+     ],
+     "post-update-cmd": [
+            "composer run-script post-install-cmd -d ./vendor/siu-toba/framework/"
+     ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

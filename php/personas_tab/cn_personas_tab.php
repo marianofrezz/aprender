@@ -177,7 +177,12 @@ class cn_personas_tab extends aprender_cn
 	{
 		$datos_r = array();
 		foreach ($datos as $key => $value) {
-			$datos_r[$key] = $this->get_blob_fila($datos[$key], $key);
+      if (isset($value['x_dbr_clave'])) { // En lugar de usar $key como clave vamos a user x_dbr_clave porque en el caso de fotos_telefonos $key y x_dbr_clave no coinciden
+        $datos_r[$key] = $this->get_blob_fila($value, $value['x_dbr_clave']);
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: get_blobs_fotos no está implementado para registros sin x_dbr_clave por el momento. Ver en cn_personas_tab.php=>get_blobs_fotos() [ref_1x0]');
+        $datos_r[$key] = $value;
+      }
 		}
 		return $datos_r;
 	}
@@ -193,7 +198,7 @@ class cn_personas_tab extends aprender_cn
 			$temp_imagen = fopen($temp_archivo['path'], 'w');
 			stream_copy_to_stream($imagen, $temp_imagen);
 			fclose($temp_imagen);
-			fclose($imagen);
+			//fclose($imagen); Quito esta instrucción porque da problemas al recargar el form
 			$tamano = round(filesize($temp_archivo['path']) / 1024);
 			$html_imagen =
 				"<img width=\"24px\" src='{$temp_archivo['url']}' alt='' />";

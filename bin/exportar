@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+toba proyecto exportar -p ${PROY} -i desarrollo

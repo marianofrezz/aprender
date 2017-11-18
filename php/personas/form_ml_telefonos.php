@@ -19,11 +19,9 @@ class form_ml_telefonos extends aprender_ei_formulario_ml
 			var ef = this.ef('id_tipotelefono');
 			for (i=0; i < this.filas().length; i++) {
 				var fila_idx = this.filas()[i]
-				if (typeof ef.ir_a_fila(fila_idx)._get_combo() !== 'undefined'){
+				if (typeof ef.ir_a_fila(fila_idx)._get_combo() !== 'undefined') {
 					var idTipoTel = ef.ir_a_fila(fila_idx).get_estado();
 					this.controlador.ajax('get_confTiposTelefonos', idTipoTel, this, this.setCampos);
-				} else {
-					console.log('fila:' + (i+1) + ', no tiene estado');
 				}
 			}
 		}
@@ -33,24 +31,20 @@ class form_ml_telefonos extends aprender_ei_formulario_ml
 			var ef_id = this.ef('id_tipotelefono');
 			var ef = this.ef('nro_telefono');
 			var ef2 = this.ef('interno');
-			console.log(datos);
 			for (i=0; i<this.filas().length;i++) {
 				var fila_idx = this.filas()[i];
 				if (typeof ef_id.ir_a_fila(fila_idx)._get_combo() !== 'undefined') {
 					if (datos['id_tipotelefono'] == ef_id.ir_a_fila(fila_idx).get_estado()) {
-						if (datos['numero']){
-							console.log('Mostramos Numero');
+						// datos['numero']
+						if (datos['numero']) {
 							ef.ir_a_fila(fila_idx).mostrar();
-						}else{
-							console.log('Ocultamos Numero');
+						} else {
 							ef.ir_a_fila(fila_idx).ocultar();
 						}
-
-						if (datos['interno']){
-							console.log('Mostramos interno');
+						// datos['interno']
+						if (datos['interno']) {
 							ef2.ir_a_fila(fila_idx).mostrar();
-						}else{
-							console.log('Ocultamos interno');
+						} else {
 							ef2.ir_a_fila(fila_idx).ocultar();
 						}
 					}

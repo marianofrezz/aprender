@@ -215,5 +215,30 @@ class ci_personas extends aprender_ci
 		$datos = dao_personas::get_confTiposTelefonos($id);
 		$respuesta->set($datos);
 	}
+
+	function ajax__getLocalidades($parametros, toba_ajax_respuesta $respuesta)
+	{
+		$id_provincia = $parametros['id_provincia'];
+		if (   ($id_provincia == '')
+		    OR ($id_provincia == 'nopar')
+				OR ($id_provincia == 'undefined')) {
+			$datos = [];
+		} else {
+			$nopar = [['id_localidad' => 'nopar', 'nombre' => '--Seleccioná--'], ];
+			$datos = dao_personas::get_opcionesLocalidad($id_provincia);
+			$datos = array_merge($nopar, $datos);
+		}
+		$this->informar_a_toba_opciones_ef($datos, 'id_localidad', 'form_untelefono', 'idlocalidad_cascada_manual');
+		$respuesta->set($datos);
+	}
+
+	function informar_a_toba_opciones_ef($datos, $nom_columnaId, $nom_form, $nom_ef)
+	{
+		$sesion = [];
+		foreach ($datos as $key => $value) {
+			$sesion[] = $value[$nom_columnaId];
+		}
+		$this->dep($nom_form)->ef($nom_ef)->guardar_dato_sesion($sesion, true);
+	}
 }
 ?>

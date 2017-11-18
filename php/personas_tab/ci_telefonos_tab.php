@@ -1,6 +1,6 @@
 <?php
 require_once('adebug.php');
-require_once('comunes/cache_form_ml.php');
+require_once('comunes/oc_form_ml.php');
 class ci_telefonos_tab extends aprender_ci
 {
   protected $sql_state;
@@ -10,12 +10,12 @@ class ci_telefonos_tab extends aprender_ci
   //---- setters y getters ------------------------------------------------------------
   //-----------------------------------------------------------------------------------
 
-  // getter form_ml_cache
+  // getter oc_form_ml
 
-  function get_cache($nombre_ml)
+  function obj_cache($nombre_ml)
   {
     if (!isset($this->s__datos[$nombre_ml])) {
-      $this->s__datos[$nombre_ml] = new cache_form_ml();
+      $this->s__datos[$nombre_ml] = new oc_form_ml();
     }
     return $this->s__datos[$nombre_ml];
   }
@@ -38,13 +38,11 @@ class ci_telefonos_tab extends aprender_ci
 
   function unset_datos_form_telefono()
   {
-    $datos = $this->get_cache_form_telefono();
     unset($this->s__datos['form_telefono']);
   }
 
   function unset_datos_form_lineas()
   {
-    $datos = $this->get_cache('form_ml_lineas');
     unset($this->s__datos['form_ml_lineas']);
   }
 
@@ -84,16 +82,20 @@ class ci_telefonos_tab extends aprender_ci
 
   function procesar_pedido_registro_nuevo_telefono($cancelar=false)
   {
-    $ml_tels = $this->get_cache('form_ml_telefonos');
-    if ($ml_tels->hay_pedido_registro_nuevo()) {
-      $ml_tels->set_pedido_registro_nuevo(false);
+    $oc_ml_tel = $this->obj_cache('form_ml_telefonos');
+    if ($oc_ml_tel->hay_pedido_registro_nuevo()) {
+      $oc_ml_tel->set_pedido_registro_nuevo(false);
       if ($this->cn()->hay_cursor_telefono()) {
         if ($cancelar) {
           $this->cn()->eliminar_fila_cursor_telefono();
         } else {
           $this->cn()->resetear_cursor_telefono();
-          $ml_tels->unset_cache();
+          $oc_ml_tel->unset_cache();
         }
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: Hay un pedido de registro nuevo pero no hay cursor seteado para el nuevo telefono. No se puede procesar el pedido de registro nuevo si no se tiene seteado el cursor en el nuevo registro. Asumimos que algo se hizo mal y por lo tanto el caché de oc ya no es confiable. Lo borramos. Ver en ci_telefonos_tab.php=>procesar_pedido_registro_nuevo_telefono('.($cancelar?'true':'false').') [ref_0x0]');
+        $oc_ml_tel->unset_cache();
+        $oc_ml_tel->set_cache($this->cn()->get_telefonos());
       }
     }
   }
@@ -112,7 +114,7 @@ class ci_telefonos_tab extends aprender_ci
   function evt__procesar()
   {
     $this->procesar_aceptar_pedido_registro_nuevo_telefono();
-    $this->set_pantalla('pant_ml_tel');
+    $this->evt__cancelar(); // Es necesario limpiar la memora al salir después de guardar
   }
 
   //-----------------------------------------------------------------------------------
@@ -130,29 +132,32 @@ class ci_telefonos_tab extends aprender_ci
     //     - El usuario hace clic en la pestaña personas y luego hace clic en guardar
     //     - El cn todavía cree que el usuario aceptó la nueva fila de telefono y se va a registrar en la base de datos
     $this->procesar_cacnelar_pedido_registro_nuevo_telefono();
-    $cache_ml = $this->get_cache('form_ml_telefonos');
-    $datos = $cache_ml->get_cache();
+    $oc_ml = $this->obj_cache('form_ml_telefonos');
+    $datos = $oc_ml->get_cache();
 
     if (!$datos) { // Si no hay datos
       if ($this->cn()->hay_cursor_persona()) {
         $datos = $this->cn()->get_telefonos();
-        $cache_ml->set_cache($datos);
+        $oc_ml->set_cache($datos);
       }
     }
     $form_ml->set_datos($datos);
-    $cache_ml->set_ml_procesado();
+    $oc_ml->set_ml_procesado();
     $this->cn()->resetear_cursor_telefono();
   }
 
   function evt__form_ml_telefonos__ver_detalle($seleccion)
   {
-    $datos_fila = $this->get_cache('form_ml_telefonos')->get_cache_fila($seleccion);
+    $datos_fila = $this->obj_cache('form_ml_telefonos')->get_cache_fila($seleccion);
     $this->set_cache_form_telefono($datos_fila);
 
     if ($this->cn()->existe_fila_telefono($seleccion)) {
       $this->cn()->set_cursor_telefono($seleccion);
       $datos_lineas = $this->cn()->get_lineas();
-      $this->get_cache('form_ml_lineas')->set_cache($datos_lineas);
+      $this->obj_cache('form_ml_lineas')->set_cache($datos_lineas);
+      $datos_fotos = $this->cn()->get_fotos_telefonos();
+      $datos_fotos = $this->cn()->get_blobs_fotos($datos_fotos);
+      $this->obj_cache('form_ml_fotos')->set_cache($datos_fotos);
     }
 
     $this->set_pantalla('pant_un_tel');
@@ -161,7 +166,7 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_ml_telefonos__pedido_registro_nuevo()
   {
-    $this->get_cache('form_ml_telefonos')->set_pedido_registro_nuevo(true);
+    $this->obj_cache('form_ml_telefonos')->set_pedido_registro_nuevo(true);
     $this->unset_datos_form_telefono();
     $this->unset_datos_form_lineas();
     $this->set_pantalla('pant_un_tel');
@@ -171,7 +176,7 @@ class ci_telefonos_tab extends aprender_ci
   {
     $this->cn()->procesar_filas_telefono($datos);
     $datos = $this->cn()->get_telefonos(); // Con esto se obtienen todos los registros que no son de baja
-    $this->get_cache('form_ml_telefonos')->set_cache($datos);
+    $this->obj_cache('form_ml_telefonos')->set_cache($datos);
   }
 
   //-----------------------------------------------------------------------------------
@@ -191,18 +196,22 @@ class ci_telefonos_tab extends aprender_ci
 
   function evt__form_telefono__modificacion($datos)
   {
-    $cache_ml_tels = $this->get_cache('form_ml_telefonos');
+    $oc_ml_tels = $this->obj_cache('form_ml_telefonos');
 
-    if ($cache_ml_tels->hay_pedido_registro_nuevo()) {
+    if ($oc_ml_tels->hay_pedido_registro_nuevo()) {
       if (!$this->cn()->hay_cursor_telefono()) {
         $id_interno_fila = $this->cn()->nueva_fila_telefono($datos);
         $this->cn()->set_cursor_telefono($id_interno_fila);
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: Hay un pedido de registro nuevo y sin embargo existe cursor seteado en el ml_telefonos. No se puede procesar el pedido de nuevo teléfono si todavía tiene seteado un cursor para modificar un registro, no se sabe si en realidad desea registrar un teléfono nuevo o si desea modificar uno existente. No se procesan los datos recibidos. Ver en ci_telefonos_tab.php=>evt__form_telefono__modificacion($datos) [ref_1x0]');
       }
     } else {
       $this->set_cache_form_telefono($datos);
-      if ($cache_ml_tels->hay_cursor_cache()) {
-        $id_fila = $cache_ml_tels->get_cursor_cache();
-        $cache_ml_tels->set_cache_fila($id_fila, $datos);
+      if ($oc_ml_tels->hay_cursor_oc()) {
+        $id_fila = $oc_ml_tels->get_cursor_oc();
+        $oc_ml_tels->set_cache_fila($id_fila, $datos);
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: No hay pedido de registro nuevo y tampoco existe cursor seteado en el oc_ml_tels. No se pueden procesar los datos recibidos del teléfono al no ser para registro nuevo y tampoco se sabe cuál registro existente se desea modificar. No se procesan los datos recibidos. Ver en ci_telefonos_tab.php=>evt__form_telefono__modificacion($datos) [ref_1x1]');
       }
     }
   }
@@ -213,13 +222,13 @@ class ci_telefonos_tab extends aprender_ci
 
 	function conf__form_ml_lineas(aprender_ei_formulario_ml $form_ml)
 	{
-    $cache_ml_lineas = $this->get_cache('form_ml_lineas');
+    $oc_ml_lineas = $this->obj_cache('form_ml_lineas');
 
-    $datos = $cache_ml_lineas->get_cache();
+    $datos = $oc_ml_lineas->get_cache();
     if (!$datos) { // Si no hay datos
       if ($this->cn()->hay_cursor_telefono()) {
         $datos = $this->cn()->get_lineas();
-        $cache_ml_lineas->set_cache($datos);
+        $oc_ml_lineas->set_cache($datos);
       }
     }
     $form_ml->set_datos($datos);
@@ -229,12 +238,12 @@ class ci_telefonos_tab extends aprender_ci
 	{
     $this->cn()->procesar_filas_linea($datos);
     $datos = $this->cn()->get_lineas(); // Con esto se obtienen todos los registros que no son de baja
-    $this->get_cache('form_ml_lineas')->set_cache($datos);
+    $this->obj_cache('form_ml_lineas')->set_cache($datos);
 	}
 
   function evt__form_ml_lineas__ver_actividad($seleccion)
   {
-    $this->get_cache('form_ml_lineas')->set_cursor_cache($seleccion);
+    $this->obj_cache('form_ml_lineas')->set_cursor_oc($seleccion);
   }
 
 	//-----------------------------------------------------------------------------------
@@ -274,10 +283,10 @@ class ci_telefonos_tab extends aprender_ci
 	function post_eventos()
 	{
     // Debemos usar este evento para setear el cursor del dt de cambio_lineas porque de lo contrario el cursor se setea muy temprano y los registros se vinculan incorrectamente
-    $cache_frm_lineas = $this->get_cache('form_ml_lineas');
-    if ($cache_frm_lineas->hay_cursor_cache()) {
-      $cursor = $cache_frm_lineas->get_cursor_cache();
-      $cache_frm_lineas->unset_cursor_cache();
+    $oc_frm_lineas = $this->obj_cache('form_ml_lineas');
+    if ($oc_frm_lineas->hay_cursor_oc()) {
+      $cursor = $oc_frm_lineas->get_cursor_oc();
+      $oc_frm_lineas->unset_cursor_oc();
       $this->cn()->set_cursor_lineas($cursor);
     }
 	}
@@ -288,45 +297,32 @@ class ci_telefonos_tab extends aprender_ci
 
 	function conf__form_ml_fotos(aprender_ei_formulario_ml $form_ml)
 	{
+    $oc_ml_fotos = $this->obj_cache('form_ml_fotos'); //Aquí faltaba el manejo de oc para ml_fotos
+
+    $datos = $oc_ml_fotos->get_cache();
+    if (!$datos) { // Si no hay datos
       if ($this->cn()->hay_cursor_telefono()) {
         $datos = $this->cn()->get_fotos_telefonos();
         $datos = $this->cn()->get_blobs_fotos($datos);
-        $form_ml->set_datos($datos);
+        $oc_ml_fotos->set_cache($datos);
       }
+    }
+    $form_ml->set_datos($datos);
 	}
 
 	function evt__form_ml_fotos__modificacion($datos)
 	{
+  	if ($datos) {
+      $this->cn()->procesar_filas_fotos_telefonos($datos);
+      $this->cn()->set_blobs_fotos($datos);
 
-    	$anterior = $this->get_cache('form_ml_fotos');
-    	foreach ($anterior as $keya => $valuea) {
-    		foreach ($datos as $keyd => $valued) {
-    			if (isset($valuea['id_fototel'])){
-    				if (isset($valued['id_fototel'])){
-    					if ($valuea['id_fototel']=$valued['id_fototel']){
-    						if (isset($valuea['imagen']) && !isset($valued['imagen'])){
-    							$datos[$keyd]['imagen'] = $valuea['imagen'];
-    							$datos[$keyd]['imagen?html'] = $valuea['imagen?html'];
-    							$datos[$keyd]['imagen?url'] = $valuea['imagen?url'];
-    						}
-    					}
-    				}
-    			}
-    		}
-    	}
+      $datos = $this->cn()->get_fotos_telefonos();
+      $datos = $this->cn()->get_blobs_fotos($datos);
 
-    	if ($datos){
-        $this->cn()->procesar_filas_fotos_telefonos($datos);
-        $this->cn()->set_blobs_fotos($datos);
-        $this->get_cache('form_ml_fotos')->set_cache($datos);
-    		}
+      $this->obj_cache('form_ml_fotos')->set_cache($datos);
+  	}
 
-    // $this->cn()->procesar_filas_fotos_telefonos($datos);
-    // $this->cn()->set_blobs_fotos($datos);
-    
-    $this->cn()->resetear_cursor_telefono();
-
+    // $this->cn()->resetear_cursor_telefono(); Esto no se debe hacer aquí
 	}
-
 }
 ?>

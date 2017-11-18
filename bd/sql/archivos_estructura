@@ -1,0 +1,2 @@
+../bd_app_crear_esquema.sql bd_1_instalarUnaccent.sql bd_2_tablasModelo.sql bd_3_triggersUpper.sql bd_4_restrMod_1.sql bd_4_restrMod_3_exa.sql bd_4_restrMod_4_car.sql bd_4_restrMod_5_liq.sql bd_4_restrMod_2_leg.sql
+bd_5_postRestrMod.sql
