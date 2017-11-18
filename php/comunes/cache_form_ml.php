@@ -1,6 +1,7 @@
 <?php
 /**
- * Esta clase nos ayuda a manejar los caché de los distintos formularios ml con mecanismo PHP Evento que tengamos definidos
+ * Esta clase nos ayuda a manejar los caché de los distintos formularios ml con mecanismo PHP Evento que tengamos definidos.
+ * Renombraremos la clase cache_form_ml a oc_form_ml. Razón: se usará el concepto de Objeto-Caché, para no confundir con el concepto de caché.
  */
 class cache_form_ml
 {
@@ -27,22 +28,22 @@ class cache_form_ml
     }
   }
 
-  function set_cursor_cache($id_fila)
+  function set_cursor_oc($id_fila)
   {
     $this->s__datos['cursor'] = $id_fila;
   }
 
-  function unset_cursor_cache()
+  function unset_cursor_oc()
   {
     unset($this->s__datos['cursor']);
   }
 
-  function get_cursor_cache()
+  function get_cursor_oc()
   {
     return $this->s__datos['cursor'];
   }
 
-  function hay_cursor_cache()
+  function hay_cursor_oc()
   {
     return isset($this->s__datos['cursor']);
   }
@@ -53,9 +54,9 @@ class cache_form_ml
       // Apagamos el pedido de registro nuevo
       $this->set_pedido_registro_nuevo(false);
     }
-    if ($this->hay_cursor_cache()) {
+    if ($this->hay_cursor_oc()) {
       // Quitamos el cursor del ml
-      $this->unset_cursor_cache();
+      $this->unset_cursor_oc();
     }
   }
 
@@ -106,7 +107,7 @@ class cache_form_ml
       }
     }
 
-    $this->set_cursor_cache($id_fila);
+    $this->set_cursor_oc($id_fila);
 
     return $resultado;
   }
