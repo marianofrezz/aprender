@@ -10,7 +10,7 @@ class ci_telefonos_tab extends aprender_ci
   //---- setters y getters ------------------------------------------------------------
   //-----------------------------------------------------------------------------------
 
-  // getter form_ml_cache
+  // getter oc_form_ml
 
   function obj_cache($nombre_ml)
   {
@@ -38,13 +38,11 @@ class ci_telefonos_tab extends aprender_ci
 
   function unset_datos_form_telefono()
   {
-    // $datos = $this->get_cache_form_telefono(); esta línea no hace falta aparentemente
     unset($this->s__datos['form_telefono']);
   }
 
   function unset_datos_form_lineas()
   {
-    // $datos = $this->get_cache('form_ml_lineas'); esta línea no hace falta aparentemente
     unset($this->s__datos['form_ml_lineas']);
   }
 
@@ -296,45 +294,39 @@ class ci_telefonos_tab extends aprender_ci
 
 	function conf__form_ml_fotos(aprender_ei_formulario_ml $form_ml)
 	{
-      if ($this->cn()->hay_cursor_telefono()) {
-        $datos = $this->cn()->get_fotos_telefonos();
-        $datos = $this->cn()->get_blobs_fotos($datos);
-        $form_ml->set_datos($datos);
-      }
+    if ($this->cn()->hay_cursor_telefono()) {
+      $datos = $this->cn()->get_fotos_telefonos();
+      $datos = $this->cn()->get_blobs_fotos($datos);
+      $form_ml->set_datos($datos);
+    }
 	}
 
 	function evt__form_ml_fotos__modificacion($datos)
 	{
+  	$anterior = $this->obj_cache('form_ml_fotos');
+  	foreach ($anterior as $keya => $valuea) {
+  		foreach ($datos as $keyd => $valued) {
+  			if (isset($valuea['id_fototel'])) {
+  				if (isset($valued['id_fototel'])) {
+  					if ($valuea['id_fototel']=$valued['id_fototel']) {
+  						if (isset($valuea['imagen']) && !isset($valued['imagen'])) {
+  							$datos[$keyd]['imagen'] = $valuea['imagen'];
+  							$datos[$keyd]['imagen?html'] = $valuea['imagen?html'];
+  							$datos[$keyd]['imagen?url'] = $valuea['imagen?url'];
+  						}
+  					}
+  				}
+  			}
+  		}
+  	}
 
-    	$anterior = $this->obj_cache('form_ml_fotos');
-    	foreach ($anterior as $keya => $valuea) {
-    		foreach ($datos as $keyd => $valued) {
-    			if (isset($valuea['id_fototel'])){
-    				if (isset($valued['id_fototel'])){
-    					if ($valuea['id_fototel']=$valued['id_fototel']){
-    						if (isset($valuea['imagen']) && !isset($valued['imagen'])){
-    							$datos[$keyd]['imagen'] = $valuea['imagen'];
-    							$datos[$keyd]['imagen?html'] = $valuea['imagen?html'];
-    							$datos[$keyd]['imagen?url'] = $valuea['imagen?url'];
-    						}
-    					}
-    				}
-    			}
-    		}
-    	}
-
-    	if ($datos){
-        $this->cn()->procesar_filas_fotos_telefonos($datos);
-        $this->cn()->set_blobs_fotos($datos);
-        $this->obj_cache('form_ml_fotos')->set_cache($datos);
-    		}
-
-    // $this->cn()->procesar_filas_fotos_telefonos($datos);
-    // $this->cn()->set_blobs_fotos($datos);
+  	if ($datos) {
+      $this->cn()->procesar_filas_fotos_telefonos($datos);
+      $this->cn()->set_blobs_fotos($datos);
+      $this->obj_cache('form_ml_fotos')->set_cache($datos);
+  	}
 
     $this->cn()->resetear_cursor_telefono();
-
 	}
-
 }
 ?>
