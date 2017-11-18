@@ -3,7 +3,7 @@
  * Esta clase nos ayuda a manejar los caché de los distintos formularios ml con mecanismo PHP Evento que tengamos definidos.
  * Renombraremos la clase cache_form_ml a oc_form_ml. Razón: se usará el concepto de Objeto-Caché, para no confundir con el concepto de caché.
  */
-class cache_form_ml
+class oc_form_ml
 {
   //-----------------------------------------------------------------------------------
 	//---- variables --------------------------------------------------------------------

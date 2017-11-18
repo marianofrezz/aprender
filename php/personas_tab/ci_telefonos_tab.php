@@ -1,6 +1,6 @@
 <?php
 require_once('adebug.php');
-require_once('comunes/cache_form_ml.php');
+require_once('comunes/oc_form_ml.php');
 class ci_telefonos_tab extends aprender_ci
 {
   protected $sql_state;
@@ -15,7 +15,7 @@ class ci_telefonos_tab extends aprender_ci
   function obj_cache($nombre_ml)
   {
     if (!isset($this->s__datos[$nombre_ml])) {
-      $this->s__datos[$nombre_ml] = new cache_form_ml();
+      $this->s__datos[$nombre_ml] = new oc_form_ml();
     }
     return $this->s__datos[$nombre_ml];
   }
