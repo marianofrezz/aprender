@@ -94,6 +94,10 @@ class ci_telefonos_tab extends aprender_ci
           $this->cn()->resetear_cursor_telefono();
           $oc_ml_tel->unset_cache();
         }
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: Hay un pedido de registro nuevo pero no hay cursor seteado para el nuevo telefono. No se puede procesar el pedido de registro nuevo si no se tiene seteado el cursor en el nuevo registro. Asumimos que algo se hizo mal y por lo tanto el caché de oc ya no es confiable. Lo borramos. Ver en ci_telefonos_tab.php=>procesar_pedido_registro_nuevo_telefono('.($cancelar?'true':'false').') ');
+        $oc_ml_tel->unset_cache();
+        $oc_ml_tel->set_cache($this->cn()->get_telefonos());
       }
     }
   }
