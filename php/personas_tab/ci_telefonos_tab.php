@@ -95,7 +95,7 @@ class ci_telefonos_tab extends aprender_ci
           $oc_ml_tel->unset_cache();
         }
       } else {
-        toba::logger()->notice('ADVERTENCIA-ATENCION: Hay un pedido de registro nuevo pero no hay cursor seteado para el nuevo telefono. No se puede procesar el pedido de registro nuevo si no se tiene seteado el cursor en el nuevo registro. Asumimos que algo se hizo mal y por lo tanto el caché de oc ya no es confiable. Lo borramos. Ver en ci_telefonos_tab.php=>procesar_pedido_registro_nuevo_telefono('.($cancelar?'true':'false').') ');
+        toba::logger()->notice('ADVERTENCIA-ATENCION: Hay un pedido de registro nuevo pero no hay cursor seteado para el nuevo telefono. No se puede procesar el pedido de registro nuevo si no se tiene seteado el cursor en el nuevo registro. Asumimos que algo se hizo mal y por lo tanto el caché de oc ya no es confiable. Lo borramos. Ver en ci_telefonos_tab.php=>procesar_pedido_registro_nuevo_telefono('.($cancelar?'true':'false').') [ref_0x0]');
         $oc_ml_tel->unset_cache();
         $oc_ml_tel->set_cache($this->cn()->get_telefonos());
       }
@@ -201,12 +201,16 @@ class ci_telefonos_tab extends aprender_ci
       if (!$this->cn()->hay_cursor_telefono()) {
         $id_interno_fila = $this->cn()->nueva_fila_telefono($datos);
         $this->cn()->set_cursor_telefono($id_interno_fila);
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: Hay un pedido de registro nuevo y sin embargo existe cursor seteado en el ml_telefonos. No se puede procesar el pedido de nuevo teléfono si todavía tiene seteado un cursor para modificar un registro, no se sabe si en realidad desea registrar un teléfono nuevo o si desea modificar uno existente. No se procesan los datos recibidos. Ver en ci_telefonos_tab.php=>evt__form_telefono__modificacion($datos) [ref_1x0]');
       }
     } else {
       $this->set_cache_form_telefono($datos);
       if ($oc_ml_tels->hay_cursor_oc()) {
         $id_fila = $oc_ml_tels->get_cursor_oc();
         $oc_ml_tels->set_cache_fila($id_fila, $datos);
+      } else {
+        toba::logger()->notice('ADVERTENCIA-ATENCION: No hay pedido de registro nuevo y tampoco existe cursor seteado en el oc_ml_tels. No se pueden procesar los datos recibidos del teléfono al no ser para registro nuevo y tampoco se sabe cuál registro existente se desea modificar. No se procesan los datos recibidos. Ver en ci_telefonos_tab.php=>evt__form_telefono__modificacion($datos) [ref_1x1]');
       }
     }
   }
